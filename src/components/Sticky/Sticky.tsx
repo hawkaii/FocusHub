@@ -1,7 +1,7 @@
 import { IoCloseSharp, IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { MouseEventHandler, useState } from "react";
 import { useStickyNote } from "@Store";
-import { ColorOptions } from "@Root/interfaces";
+import { ColorOptions } from "@App/interfaces";
 import TextareaAutosize from "react-textarea-autosize";
 
 export const Sticky = ({ id, text, color }) => {

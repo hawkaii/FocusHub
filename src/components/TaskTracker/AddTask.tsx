@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useTask, useBreakStarted } from "@Store";
 import { Button } from "@Components/Common/Button";
-import { failureToast } from "@Root/utils/toast";
+import { failureToast } from "@Utils/toast";
 
 export const AddTask = () => {
   const limit = 100;
@@ -65,11 +65,11 @@ export const AddTask = () => {
         <div className="bg-gray-200 dark:bg-gray-700 dark:text-gray-200">
           <div className="flex space-x-5 p-2">
             <button type="button" id="pomodoro-decrement" onClick={e => handlePomodoroChange(e)}>
-              <
+              &lt;
             </button>
             <div>{pomoCounter}</div>
             <button type="button" id="pomodoro-increment" onClick={e => handlePomodoroChange(e)}>
-              >
+              &gt;
             </button>
           </div>
         </div>
@@ -79,6 +79,5 @@ export const AddTask = () => {
         Save
       </Button>
     </form>
-  )
   );
 };

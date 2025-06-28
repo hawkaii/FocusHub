@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AiOutlineReload } from "react-icons/ai";
 import { IoCloseSharp } from "react-icons/io5";
 import { WithTooltip } from "../../Tooltip";
-import { failureToast } from "@Root/utils/toast";
+import { failureToast } from "@Utils/toast";
 
 export const Spotify = () => {
   const { setIsSpotifyToggled } = useSpotifyMusic();

@@ -1,4 +1,4 @@
-import { useUnsplashStore } from "@Root/src/store";
+import { useUnsplashStore } from "@Store";
 import "./Unsplash.scss";
 
 export const Unsplash = () => {

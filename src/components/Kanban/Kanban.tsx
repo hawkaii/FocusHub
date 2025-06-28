@@ -1,5 +1,5 @@
 import "@Components/Kanban/kanban.css";
-import { useKanban, useToggleKanban } from "@Root/src/store";
+import { useKanban, useToggleKanban } from "@Store";
 import { IconContext } from "react-icons";
 import { IoCloseSharp } from "react-icons/io5";
 import { BsPlus } from "react-icons/bs";
