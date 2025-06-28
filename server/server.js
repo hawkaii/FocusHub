@@ -11,15 +11,15 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'FocusStation Backend Server is running',
     timestamp: new Date().toISOString()
   });
@@ -31,44 +31,44 @@ app.post('/api/chat', async (req, res) => {
     const { message, conversationHistory = [] } = req.body;
 
     if (!message) {
-      return res.status(400).json({ 
-        error: 'Message is required' 
+      return res.status(400).json({
+        error: 'Message is required'
       });
     }
 
     // Get the generative model
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-flash' });
 
     // Create a system prompt for calendar event extraction
-    const systemPrompt = `You are a helpful assistant that converts natural language into Google Calendar events. 
+    const systemPrompt = `You are a helpful assistant that converts natural language into Google Calendar events.
     When a user describes an event, meeting, or task, extract the following information and format it as a JSON object:
-    
+
     {
       "isCalendarEvent": true/false,
       "title": "Event title",
       "description": "Event description",
       "startDate": "YYYY-MM-DD",
       "startTime": "HH:MM",
-      "endDate": "YYYY-MM-DD", 
+      "endDate": "YYYY-MM-DD",
       "endTime": "HH:MM",
       "location": "Event location (if mentioned)",
       "attendees": ["email1@example.com", "email2@example.com"],
       "response": "Natural language response to the user"
     }
-    
+
     If the message is not about creating a calendar event, set "isCalendarEvent" to false and provide a helpful response.
     Always be conversational and helpful. If dates/times are relative (like "tomorrow", "next week"), convert them to actual dates based on today's date.
-    
+
     Current date and time: ${new Date().toISOString()}`;
 
     // Build conversation context
     let conversationContext = systemPrompt + '\n\n';
-    
+
     // Add conversation history
     conversationHistory.forEach(msg => {
       conversationContext += `${msg.role}: ${msg.content}\n`;
     });
-    
+
     // Add current message
     conversationContext += `User: ${message}\nAssistant:`;
 
@@ -107,7 +107,7 @@ app.post('/api/chat', async (req, res) => {
 
   } catch (error) {
     console.error('Error in chat endpoint:', error);
-    
+
     // Handle specific Gemini API errors
     if (error.message?.includes('API key')) {
       return res.status(401).json({
@@ -115,7 +115,7 @@ app.post('/api/chat', async (req, res) => {
         message: 'Please check your GEMINI_API_KEY environment variable'
       });
     }
-    
+
     if (error.message?.includes('quota')) {
       return res.status(429).json({
         error: 'API quota exceeded',
@@ -134,10 +134,10 @@ app.post('/api/chat', async (req, res) => {
 app.post('/api/calendar/create-event', async (req, res) => {
   try {
     const { eventData } = req.body;
-    
+
     // TODO: Implement Google Calendar API integration
     console.log('Calendar event to create:', eventData);
-    
+
     res.json({
       success: true,
       message: 'Calendar integration coming soon!',
@@ -174,7 +174,7 @@ app.listen(PORT, () => {
   console.log(`🚀 FocusStation Backend Server running on port ${PORT}`);
   console.log(`📡 Health check: http://localhost:${PORT}/health`);
   console.log(`🤖 Chat endpoint: http://localhost:${PORT}/api/chat`);
-  
+
   // Check if Gemini API key is configured
   if (!process.env.GEMINI_API_KEY) {
     console.warn('⚠️  WARNING: GEMINI_API_KEY not found in environment variables');

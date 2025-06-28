@@ -6,7 +6,7 @@ export const Walkthrough = () => {
   const steps = [
     {
       target: "body",
-      content: "Welcome to Astrostation! 🚀",
+      content: "Welcome to FocusHub! 🚀",
       placement: "center",
     },
     {
@@ -15,7 +15,7 @@ export const Walkthrough = () => {
     },
     {
       target: ".settingsButton",
-      content: "In the settings, you can configure certain Astrostation widgets to your liking.",
+      content: "In the settings, you can configure certain FocusHub widgets to your liking.",
     },
     {
       target: ".joyRideTaskTracker",
@@ -40,15 +40,15 @@ export const Walkthrough = () => {
     },
     {
       target: ".seoToggle",
-      content: "After reading more about Astrostation, you can hide this section for full immersion.",
+      content: "After reading more about FocusHub, you can hide this section for full immersion.",
     },
     {
       target: ".donateButton",
-      content: "Astrostation is 100% free to use. If you are feeling generous, you can donate Ethereum.",
+      content: "FocusHub is 100% free to use. If you are feeling generous, you can donate Ethereum.",
     },
     {
       target: ".sideNav",
-      content: "Enjoy your time with Astrostation! 🚀",
+      content: "Enjoy your time with FocusHub! 🚀",
     },
   ];
 

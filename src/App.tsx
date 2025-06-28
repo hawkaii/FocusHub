@@ -60,7 +60,9 @@ function App() {
 
   return (
     <>
-      {isFirstTimeUser && <Walkthrough />}
+      {
+        // isFirstTimeUser && <Walkthrough />
+      }
       <Backgrounds />
       <div
         className={clsx(
