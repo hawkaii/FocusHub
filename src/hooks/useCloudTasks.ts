@@ -1,5 +1,18 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@App/lib/supabase'
+import { 
+  collection, 
+  doc, 
+  getDocs, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  query, 
+  where, 
+  orderBy,
+  serverTimestamp,
+  writeBatch
+} from 'firebase/firestore'
+import { db } from '@App/lib/firebase'
 import { useAuth } from './useAuth'
 import { ITask } from '@App/interfaces'
 import { successToast, failureToast } from '@Utils/toast'
@@ -10,29 +23,33 @@ export function useCloudTasks() {
   const [loading, setLoading] = useState(false)
   const [syncing, setSyncing] = useState(false)
 
-  // Fetch tasks from Supabase
+  // Fetch tasks from Firestore
   const fetchTasks = async () => {
     if (!user) return
 
     setLoading(true)
     try {
-      const { data, error } = await supabase
-        .from('tasks')
-        .select('*')
-        .order('created_at', { ascending: false })
+      const tasksRef = collection(db, 'tasks')
+      const q = query(
+        tasksRef, 
+        where('user_id', '==', user.uid),
+        orderBy('created_at', 'desc')
+      )
+      const querySnapshot = await getDocs(q)
 
-      if (error) throw error
-
-      const formattedTasks: ITask[] = data.map(task => ({
-        id: parseInt(task.id.replace(/-/g, '').substring(0, 8), 16), // Convert UUID to number for compatibility
-        description: task.description,
-        inProgress: task.in_progress,
-        completed: task.completed,
-        pomodoro: task.pomodoro,
-        pomodoroCounter: task.pomodoro_counter,
-        alerted: task.alerted,
-        menuToggled: task.menu_toggled,
-      }))
+      const formattedTasks: ITask[] = querySnapshot.docs.map(doc => {
+        const data = doc.data()
+        return {
+          id: doc.id,
+          description: data.description,
+          inProgress: data.in_progress,
+          completed: data.completed,
+          pomodoro: data.pomodoro,
+          pomodoroCounter: data.pomodoro_counter,
+          alerted: data.alerted,
+          menuToggled: data.menu_toggled,
+        }
+      })
 
       setCloudTasks(formattedTasks)
     } catch (error) {
@@ -43,26 +60,25 @@ export function useCloudTasks() {
     }
   }
 
-  // Save task to Supabase
+  // Save task to Firestore
   const saveTask = async (task: ITask) => {
     if (!user) return
 
     try {
-      const { error } = await supabase
-        .from('tasks')
-        .insert({
-          user_id: user.id,
-          description: task.description,
-          in_progress: task.inProgress,
-          completed: task.completed,
-          pomodoro: task.pomodoro,
-          pomodoro_counter: task.pomodoroCounter,
-          alerted: task.alerted,
-          menu_toggled: task.menuToggled,
-        })
+      const tasksRef = collection(db, 'tasks')
+      await addDoc(tasksRef, {
+        user_id: user.uid,
+        description: task.description,
+        in_progress: task.inProgress,
+        completed: task.completed,
+        pomodoro: task.pomodoro,
+        pomodoro_counter: task.pomodoroCounter,
+        alerted: task.alerted,
+        menu_toggled: task.menuToggled,
+        created_at: serverTimestamp(),
+        updated_at: serverTimestamp(),
+      })
 
-      if (error) throw error
-      
       await fetchTasks() // Refresh tasks
     } catch (error) {
       console.error('Error saving task:', error)
@@ -70,31 +86,23 @@ export function useCloudTasks() {
     }
   }
 
-  // Update task in Supabase
-  const updateTask = async (taskId: number, updates: Partial<ITask>) => {
+  // Update task in Firestore
+  const updateTask = async (taskId: string, updates: Partial<ITask>) => {
     if (!user) return
 
     try {
-      // Find the task in cloudTasks to get the UUID
-      const cloudTask = cloudTasks.find(t => t.id === taskId)
-      if (!cloudTask) return
+      const taskRef = doc(db, 'tasks', taskId)
+      await updateDoc(taskRef, {
+        description: updates.description,
+        in_progress: updates.inProgress,
+        completed: updates.completed,
+        pomodoro: updates.pomodoro,
+        pomodoro_counter: updates.pomodoroCounter,
+        alerted: updates.alerted,
+        menu_toggled: updates.menuToggled,
+        updated_at: serverTimestamp(),
+      })
 
-      const { error } = await supabase
-        .from('tasks')
-        .update({
-          description: updates.description,
-          in_progress: updates.inProgress,
-          completed: updates.completed,
-          pomodoro: updates.pomodoro,
-          pomodoro_counter: updates.pomodoroCounter,
-          alerted: updates.alerted,
-          menu_toggled: updates.menuToggled,
-        })
-        .eq('user_id', user.id)
-        .eq('description', cloudTask.description) // Use description as identifier
-
-      if (error) throw error
-      
       await fetchTasks() // Refresh tasks
     } catch (error) {
       console.error('Error updating task:', error)
@@ -102,22 +110,13 @@ export function useCloudTasks() {
     }
   }
 
-  // Delete task from Supabase
-  const deleteTask = async (taskId: number) => {
+  // Delete task from Firestore
+  const deleteTask = async (taskId: string) => {
     if (!user) return
 
     try {
-      const cloudTask = cloudTasks.find(t => t.id === taskId)
-      if (!cloudTask) return
-
-      const { error } = await supabase
-        .from('tasks')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('description', cloudTask.description)
-
-      if (error) throw error
-      
+      const taskRef = doc(db, 'tasks', taskId)
+      await deleteDoc(taskRef)
       await fetchTasks() // Refresh tasks
     } catch (error) {
       console.error('Error deleting task:', error)
@@ -131,32 +130,35 @@ export function useCloudTasks() {
 
     setSyncing(true)
     try {
-      // Clear existing tasks for this user
-      await supabase
-        .from('tasks')
-        .delete()
-        .eq('user_id', user.id)
+      const batch = writeBatch(db)
+      
+      // First, delete all existing tasks for this user
+      const tasksRef = collection(db, 'tasks')
+      const q = query(tasksRef, where('user_id', '==', user.uid))
+      const existingTasks = await getDocs(q)
+      
+      existingTasks.docs.forEach((doc) => {
+        batch.delete(doc.ref)
+      })
 
-      // Insert all local tasks
-      const tasksToInsert = localTasks.map(task => ({
-        user_id: user.id,
-        description: task.description,
-        in_progress: task.inProgress,
-        completed: task.completed,
-        pomodoro: task.pomodoro,
-        pomodoro_counter: task.pomodoroCounter,
-        alerted: task.alerted,
-        menu_toggled: task.menuToggled,
-      }))
+      // Then add all local tasks
+      localTasks.forEach((task) => {
+        const newTaskRef = doc(collection(db, 'tasks'))
+        batch.set(newTaskRef, {
+          user_id: user.uid,
+          description: task.description,
+          in_progress: task.inProgress,
+          completed: task.completed,
+          pomodoro: task.pomodoro,
+          pomodoro_counter: task.pomodoroCounter,
+          alerted: task.alerted,
+          menu_toggled: task.menuToggled,
+          created_at: serverTimestamp(),
+          updated_at: serverTimestamp(),
+        })
+      })
 
-      if (tasksToInsert.length > 0) {
-        const { error } = await supabase
-          .from('tasks')
-          .insert(tasksToInsert)
-
-        if (error) throw error
-      }
-
+      await batch.commit()
       await fetchTasks()
       successToast('Tasks synced to cloud successfully', false)
     } catch (error) {

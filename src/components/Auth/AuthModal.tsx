@@ -24,7 +24,8 @@ export const AuthModal = ({ isVisible, onClose }: AuthModalProps) => {
       if (isSignUp) {
         const { error } = await signUp(email, password)
         if (error) throw error
-        successToast('Account created successfully! Please check your email to verify your account.', false)
+        successToast('Account created successfully!', false)
+        onClose()
       } else {
         const { error } = await signIn(email, password)
         if (error) throw error
@@ -35,12 +36,6 @@ export const AuthModal = ({ isVisible, onClose }: AuthModalProps) => {
       failureToast(error.message || 'Authentication failed', false)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const keydownHandler = ({ key }: KeyboardEvent) => {
-    if (key === 'Escape') {
-      onClose()
     }
   }
 

@@ -293,7 +293,7 @@ export const useTask = create<ITaskState>(
     (set, get) => ({
       tasks: [
         {
-          id: Date.now(),
+          id: v4(),
           description: "Task in progress",
           inProgress: true,
           completed: false,
@@ -303,7 +303,7 @@ export const useTask = create<ITaskState>(
           menuToggled: false,
         } as ITask,
         {
-          id: Date.now() + 1,
+          id: v4(),
           description: "Task not in progress",
           inProgress: false,
           completed: false,
@@ -317,7 +317,7 @@ export const useTask = create<ITaskState>(
         set(state => ({
           tasks: [
             {
-              id: Date.now() + state.tasks.length,
+              id: v4(),
               description,
               inProgress: false,
               completed: false,

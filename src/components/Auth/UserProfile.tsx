@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaUser, FaSignOutAlt, FaCloud, FaDownload, FaUpload } from 'react-icons/fa'
+import { IoCloseSharp } from 'react-icons/io5'
 import { useAuth } from '@App/hooks/useAuth'
 import { useCloudTasks } from '@App/hooks/useCloudTasks'
 import { useTask } from '@Store'
@@ -55,12 +56,18 @@ export const UserProfile = ({ isVisible, onClose }: UserProfileProps) => {
         className="w-full max-w-md rounded-lg bg-white p-6 text-gray-800 shadow-md dark:bg-gray-800 dark:text-gray-300"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center mb-4">
-          <FaUser className="mr-2" />
-          <div>
-            <h2 className="text-xl font-bold">Profile</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center">
+            <FaUser className="mr-2" />
+            <div>
+              <h2 className="text-xl font-bold">Profile</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
+            </div>
           </div>
+          <IoCloseSharp
+            className="cursor-pointer text-red-500 hover:bg-red-200"
+            onClick={onClose}
+          />
         </div>
 
         <div className="space-y-4">

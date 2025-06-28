@@ -88,7 +88,7 @@ export enum ColorOptions {
 }
 
 export interface ITask {
-  id: number;
+  id: string;
   description: string;
   inProgress: boolean;
   completed: boolean;
@@ -101,15 +101,15 @@ export interface ITask {
 export interface ITaskState {
   tasks: ITask[];
   addTask: (description: string, count: number, isBreak: boolean) => void;
-  renameTask: (id: number, newName: string) => void;
-  removeTask: (id: number) => void;
+  renameTask: (id: string, newName: string) => void;
+  removeTask: (id: string) => void;
   removeAllTasks: () => void;
-  toggleInProgressState: (id: number, flag: boolean) => void;
-  setCompleted: (id: number, flag: boolean) => void;
-  setPomodoroCounter: (id: number) => void;
-  alertTask: (id: number, flag: boolean) => void;
-  setPomodoro: (id: number, newVal: number) => void;
-  toggleMenu: (id: number, flag: boolean) => void;
+  toggleInProgressState: (id: string, flag: boolean) => void;
+  setCompleted: (id: string, flag: boolean) => void;
+  setPomodoroCounter: (id: string) => void;
+  alertTask: (id: string, flag: boolean) => void;
+  setPomodoro: (id: string, newVal: number) => void;
+  toggleMenu: (id: string, flag: boolean) => void;
 }
 
 export interface IKanbanBoard {
