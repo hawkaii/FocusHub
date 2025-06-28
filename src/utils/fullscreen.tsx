@@ -1,5 +1,5 @@
 import { useFullScreenToggleStore } from "@Store";
-import { failureToast } from "@Root/utils/toast";
+import { failureToast } from "@Utils/toast";
 
 export function fullscreenChanged() {
   const { toggleFullscreenMode } = useFullScreenToggleStore();
