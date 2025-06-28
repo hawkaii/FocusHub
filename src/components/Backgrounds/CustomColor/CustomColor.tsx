@@ -1,4 +1,4 @@
-import { useSetBackground } from "@Store";
+import { useSetBackground } from "@Root/src/store";
 
 export const CustomColor = () => {
   const { backgroundColor } = useSetBackground();

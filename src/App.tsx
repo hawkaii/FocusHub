@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Backgrounds } from "@Components/Backgrounds/utils";
-import { Astrostation } from "@App/pages/Astrostation";
-import { InfoSection } from "@App/pages/InfoSection";
+import { Astrostation } from "@Root/src/pages/Astrostation";
+import { InfoSection } from "@Root/src/pages/InfoSection";
 import { SideNav } from "@Components/Nav/SideNav";
 import { useDarkToggleStore, useFirstTimeUserStore, useBreakStarted, useSeoVisibilityStore } from "@Store";
 import { Toaster } from "react-hot-toast";

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useSetBackground } from "@Store";
 import { BackgroundDropdownItem } from "./BackgroundDropdownItem";
-import { Background } from "@App/App";
+import { Background } from "@Root/src/App";
 
 export const BackgroundNav = ({
   isVisible = false,

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useTask, useBreakStarted } from "@Store";
 import { Button } from "@Components/Common/Button";
-import { failureToast } from "@Utils/toast";
+import { failureToast } from "@Root/src/utils/toast";
 
 export const AddTask = () => {
   const limit = 100;

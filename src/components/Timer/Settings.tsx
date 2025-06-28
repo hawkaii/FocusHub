@@ -18,8 +18,8 @@ import { GiPanFlute } from "react-icons/gi";
 import { CgPiano } from "react-icons/cg";
 import { Button } from "@Components/Common/Button";
 import { ToggleOption } from "./ToggleOption";
-import { successToast } from "@Utils/toast";
-import useSetDefault from "@Utils/hooks/useSetDefault";
+import { successToast } from "@App/utils/toast";
+import useSetDefault from "@App/utils/hooks/useSetDefault";
 import clsx from "clsx";
 
 import piano from "/assets/music/piano.wav";

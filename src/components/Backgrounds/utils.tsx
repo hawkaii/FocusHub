@@ -9,7 +9,7 @@ import { DvdPlayer } from "./Dvd/DvdPlayer";
 import { Unsplash } from "./Unsplash/Unsplash";
 import { useSetBackground } from "@Store";
 import { CustomColor } from "./CustomColor/CustomColor";
-import { Background } from "@App/App";
+import { Background } from "@Root/src/App";
 
 const getBackgroundImage = (id: Background) => {
   const Components = {
