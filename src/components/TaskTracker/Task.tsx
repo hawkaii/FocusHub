@@ -5,7 +5,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { Settings } from "./Settings";
 import { useTask, useTimer, useBreakStarted } from "@Store";
 import clsx from "clsx";
-import { ITask } from "@Root/src/interfaces";
+import { ITask } from "@Root/interfaces";
 
 // TODO: Remove alerted
 // TODO: Add a blurb/instructions to let users know how to toggle

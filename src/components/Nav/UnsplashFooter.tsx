@@ -1,4 +1,4 @@
-import { useUnsplashStore } from "@Root/src/store";
+import { useUnsplashStore } from "@Root/store";
 import { GoSync } from "react-icons/go";
 import { useEffect } from "react";
 

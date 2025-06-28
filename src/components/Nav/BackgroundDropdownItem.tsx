@@ -1,5 +1,5 @@
-import { Background } from "@Root/src/App";
-import { useSetBackground } from "@Root/src/store";
+import { Background } from "@Root/App";
+import { useSetBackground } from "@Root/store";
 import clsx from "clsx";
 import { useCallback } from "react";
 
