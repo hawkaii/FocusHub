@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Backgrounds } from "@Components/Backgrounds/utils";
 import { Astrostation } from "@Root/src/pages/Astrostation";
-import { InfoSection } from "@Root/src/pages/InfoSection";
 import { SideNav } from "@Components/Nav/SideNav";
 import { useDarkToggleStore, useFirstTimeUserStore, useBreakStarted, useSeoVisibilityStore } from "@Store";
 import { Toaster } from "react-hot-toast";
@@ -16,15 +15,15 @@ import { useRef } from "react";
  */
 export enum Background {
   CITY,
-  FADE,
+  /* FADE,
   GRADIENT,
   JAPAN,
-  COTTAGE,
+  COTTAGE, */
   LOFIGIRL,
-  TRAIN,
+  /* TRAIN,
   DVD,
   UNSPLASH,
-  CUSTOM_COLOR,
+  CUSTOM_COLOR, */
 }
 
 function App() {
@@ -73,10 +72,6 @@ function App() {
         <Toaster />
         <SideNav />
         <Astrostation ref={astroStationRef} />
-        <InfoSection
-          onButtonClick={handleButtonClick}
-          isSeoVisible={isSeoVisible}
-        />
       </div>
     </>
   );

@@ -5,9 +5,9 @@ import { SiGithub } from "react-icons/si";
 
 function BottomButtons() {
   return (
-    <WithTooltip text="Astrostation is an open source project and is open to contributions.">
+    <WithTooltip text="FocusStation is an open source project and is open to contributions.">
       <div className="fixed bottom-2 z-10 ml-32">
-        <a href="https://github.com/MelkeyOSS/astrostation" target="_blank">
+        <a href="https://github.com/hawkaii/studydesk" target="_blank">
           <Button className="flex h-10 w-14 items-center rounded-md" variant="bottomButton">
             <SiGithub size={23} />
           </Button>

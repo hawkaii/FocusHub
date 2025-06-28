@@ -44,60 +44,10 @@ export const BackgroundNav = ({
             className="rounded-t-md"
           />
           <BackgroundDropdownItem
-            isPicked={backgroundId == Background.FADE}
-            setBackgroundId={setBackgroundId}
-            background={Background.FADE}
-            title="Fade"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.GRADIENT}
-            setBackgroundId={setBackgroundId}
-            background={Background.GRADIENT}
-            title="Gradient"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.JAPAN}
-            setBackgroundId={setBackgroundId}
-            background={Background.JAPAN}
-            title="Japan"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.COTTAGE}
-            setBackgroundId={setBackgroundId}
-            background={Background.COTTAGE}
-            title="Cottage"
-          />
-          <BackgroundDropdownItem
             isPicked={backgroundId == Background.LOFIGIRL}
             setBackgroundId={setBackgroundId}
             background={Background.LOFIGIRL}
             title="Lofi Girl"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.TRAIN}
-            setBackgroundId={setBackgroundId}
-            background={Background.TRAIN}
-            title="Train"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.DVD}
-            setBackgroundId={setBackgroundId}
-            background={Background.DVD}
-            title="DVD Player"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.UNSPLASH}
-            setBackgroundId={setBackgroundId}
-            background={Background.UNSPLASH}
-            title="Unsplash"
-            className="rounded-b-md"
-          />
-          <BackgroundDropdownItem
-            isPicked={backgroundId == Background.CUSTOM_COLOR}
-            setBackgroundId={setBackgroundId}
-            background={Background.CUSTOM_COLOR}
-            title="Custom Color"
-            className="rounded-t-md"
           />
         </div>
       </div>
