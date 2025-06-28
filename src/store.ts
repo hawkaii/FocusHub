@@ -290,7 +290,7 @@ export const useStickyNote = create<IStickyNoteState>(
 
 export const useTask = create<ITaskState>(
   persist(
-    (set, _) => ({
+    (set, get) => ({
       tasks: [
         {
           id: Date.now(),
@@ -300,6 +300,7 @@ export const useTask = create<ITaskState>(
           pomodoro: 1,
           pomodoroCounter: 0,
           alerted: false,
+          menuToggled: false,
         } as ITask,
         {
           id: Date.now() + 1,
@@ -309,6 +310,7 @@ export const useTask = create<ITaskState>(
           pomodoro: 1,
           pomodoroCounter: 0,
           alerted: false,
+          menuToggled: false,
         } as ITask,
       ],
       addTask: (description: string, count: number, isBreak: boolean) => {
