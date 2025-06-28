@@ -120,11 +120,11 @@ export const Timer = () => {
     if (hasStarted) {
       const icon = sessionType === "Session" ? "⏱" : "☕️";
       // @ts-ignore
-      document.title = `Astrostation ${icon}${formatDisplayTime(parseInt(timerMinutes))}:${formatDisplayTime(
+      document.title = `FocusStation ${icon}${formatDisplayTime(parseInt(timerMinutes))}:${formatDisplayTime(
         parseInt(timerSeconds)
       )}`;
     } else {
-      document.title = "Astrostation";
+      document.title = "FocusStation";
     }
   }, [hasStarted, timerMinutes, timerSeconds, sessionType]);
 
