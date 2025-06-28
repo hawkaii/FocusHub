@@ -108,7 +108,10 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
           />
         </div>
       </div>
-      <CryptoDonationButton />
+
+      {
+        // <CryptoDonationButton />
+      }
       <BottomButtons />
       {!isDesktop ? (
         <div className="ml-8 flex flex-col items-center">
