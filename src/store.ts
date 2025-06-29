@@ -257,9 +257,9 @@ export const useStickyNote = create<IStickyNoteState>(
           stickyNotes: state.stickyNotes.map(note =>
             note.id === id
               ? {
-                  ...note,
-                  [newProp]: newValue,
-                }
+                ...note,
+                [newProp]: newValue,
+              }
               : note
           ),
         }));
@@ -274,10 +274,10 @@ export const useStickyNote = create<IStickyNoteState>(
           stickyNotes: state.stickyNotes.map(note =>
             note.id === id
               ? ({
-                  ...note,
-                  stickyNotesPosX: X,
-                  stickyNotesPosY: Y,
-                } as IStickyNote)
+                ...note,
+                stickyNotesPosX: X,
+                stickyNotesPosY: Y,
+              } as IStickyNote)
               : note
           ),
         }));
@@ -340,9 +340,9 @@ export const useTask = create<ITaskState>(
           tasks: state.tasks.map(task =>
             task.id === id
               ? ({
-                  ...task,
-                  description: newName,
-                } as ITask)
+                ...task,
+                description: newName,
+              } as ITask)
               : task
           ),
         }));
@@ -368,9 +368,9 @@ export const useTask = create<ITaskState>(
           tasks: state.tasks.map(task =>
             task.id === id
               ? ({
-                  ...task,
-                  pomodoroCounter: task.pomodoroCounter < task.pomodoro ? task.pomodoroCounter + 1 : task.pomodoro,
-                } as ITask)
+                ...task,
+                pomodoroCounter: task.pomodoroCounter < task.pomodoro ? task.pomodoroCounter + 1 : task.pomodoro,
+              } as ITask)
               : task
           ),
         }));
@@ -380,9 +380,9 @@ export const useTask = create<ITaskState>(
           tasks: state.tasks.map(task =>
             task.id === id
               ? ({
-                  ...task,
-                  pomodoro: newVal,
-                } as ITask)
+                ...task,
+                pomodoro: newVal,
+              } as ITask)
               : task
           ),
         }));
@@ -392,9 +392,9 @@ export const useTask = create<ITaskState>(
           tasks: state.tasks.map(task =>
             task.id === id
               ? ({
-                  ...task,
-                  alerted: flag,
-                } as ITask)
+                ...task,
+                alerted: flag,
+              } as ITask)
               : task
           ),
         }));
@@ -404,9 +404,9 @@ export const useTask = create<ITaskState>(
           tasks: state.tasks.map(task =>
             task.id === id
               ? ({
-                  ...task,
-                  menuToggled: flag,
-                } as ITask)
+                ...task,
+                menuToggled: flag,
+              } as ITask)
               : task
           ),
         }));
@@ -724,7 +724,7 @@ export const useFullScreenToggleStore = create<IFullscreenState>(
  * Handle the visibility of motivational/programming quotes
  */
 
-export const useToggleQu ote = create<IToggleQuote>(
+export const useToggleQuote = create<IToggleQuote>(
   persist(
     (set, _) => ({
       isQuoteToggled: false,
@@ -992,17 +992,17 @@ export const useFocusSession = create<IFocusSessionState>(set => ({
   endSession: (completed) => {
     set(state => {
       if (!state.currentSession) return state
-      
+
       const endTime = new Date()
       const duration = Math.floor((endTime.getTime() - state.currentSession.start_time.getTime()) / 1000)
-      
+
       const completedSession = {
         ...state.currentSession,
         end_time: endTime,
         duration,
         completed,
       }
-      
+
       return {
         currentSession: null,
         sessions: [completedSession, ...state.sessions]
@@ -1012,7 +1012,7 @@ export const useFocusSession = create<IFocusSessionState>(set => ({
   getSessions: (startDate, endDate) => {
     const { sessions } = useFocusSession.getState()
     if (!startDate || !endDate) return sessions
-    
+
     return sessions.filter(session => {
       const sessionDate = new Date(session.start_time)
       return sessionDate >= startDate && sessionDate <= endDate
