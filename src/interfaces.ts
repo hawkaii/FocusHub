@@ -324,3 +324,91 @@ export interface ISeoContent {
 export interface ISeoToggle {
     onButtonClick: () => void;
 }
+
+// Widget Modes System
+export enum WidgetMode {
+  LOFI = 'lofi',
+  PRODUCTIVITY = 'productivity',
+  MINIMAL = 'minimal',
+  STUDY = 'study',
+  CUSTOM = 'custom'
+}
+
+export interface IWidgetModeState {
+  currentMode: WidgetMode;
+  setMode: (mode: WidgetMode) => void;
+}
+
+// Focus Session Analytics Interfaces
+export interface IFocusSession {
+  id: string;
+  user_id: string;
+  start_time: Date;
+  end_time: Date;
+  duration: number; // in seconds
+  session_type: 'focus' | 'break';
+  task_id?: string;
+  task_category?: string;
+  completed: boolean;
+  created_at: Date;
+}
+
+export interface IFocusSessionState {
+  sessions: IFocusSession[];
+  currentSession: IFocusSession | null;
+  addSession: (session: Omit<IFocusSession, 'id' | 'created_at'>) => void;
+  updateSession: (id: string, updates: Partial<IFocusSession>) => void;
+  deleteSession: (id: string) => void;
+  startSession: (type: 'focus' | 'break', taskId?: string, taskCategory?: string) => void;
+  endSession: (completed: boolean) => void;
+  getSessions: (startDate?: Date, endDate?: Date) => IFocusSession[];
+}
+
+export interface IAnalyticsData {
+  totalFocusTime: {
+    daily: number;
+    weekly: number;
+    monthly: number;
+  };
+  averageSessionDuration: number;
+  longestStreak: number;
+  peakProductivityHours: number[];
+  completionRate: number;
+  breakTimeAnalysis: {
+    averageBreakDuration: number;
+    totalBreakTime: number;
+    breakFrequency: number;
+  };
+  taskCategoriesDistribution: Record<string, number>;
+  productivityScore: number;
+  heatMapData: Array<{
+    date: string;
+    hour: number;
+    intensity: number;
+    duration: number;
+  }>;
+  progressData: Array<{
+    date: string;
+    focusTime: number;
+    sessions: number;
+    completionRate: number;
+  }>;
+}
+
+export interface IAnalyticsFilters {
+  dateRange: {
+    start: Date;
+    end: Date;
+  };
+  sessionType: 'all' | 'focus' | 'break';
+  taskCategory: string | 'all';
+  sortBy: 'date' | 'duration' | 'completion';
+  sortOrder: 'asc' | 'desc';
+}
+
+export interface IToggleAnalytics {
+  isAnalyticsToggled: boolean;
+  setIsAnalyticsToggled: (isAnalyticsToggled: boolean) => void;
+  isAnalyticsShown: boolean;
+  setIsAnalyticsShown: (isAnalyticsShown: boolean) => void;
+}

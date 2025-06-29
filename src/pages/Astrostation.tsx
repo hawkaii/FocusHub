@@ -11,6 +11,7 @@ import {
   useToggleTwitch,
   useToggleYoutube,
   useToggleKanban,
+  useToggleAnalytics,
   usePosMusic,
   usePosSpotify,
   usePosTimer,
@@ -41,6 +42,7 @@ import useMediaQuery from "@Utils/hooks/useMediaQuery";
 import { TwitchStream } from "@Components/Twitch/TwitchStream";
 import { YoutubeVideo } from "@Components/Youtube/YoutubeVideo";
 import { Kanban } from "@Components/Kanban/Kanban";
+import { AnalyticsPage } from "@Components/Analytics/AnalyticsPage";
 import { UnsplashFooter } from "../components/Nav/UnsplashFooter";
 import clsx from "clsx";
 import React from "react";
@@ -57,6 +59,7 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
   const { isTwitchToggled, isTwitchShown } = useToggleTwitch();
   const { isYoutubeToggled, isYoutubeShown } = useToggleYoutube();
   const { isKanbanToggled, isKanbanShown } = useToggleKanban();
+  const { isAnalyticsToggled } = useToggleAnalytics();
 
   // Position hooks
   const { taskPosX, taskPosY, setTaskPos } = usePosTask();
@@ -78,6 +81,10 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
   return (
     <div ref={ref} className="pb-8 md:h-screen md:pb-0">
       {backgroundId == Background.UNSPLASH && <UnsplashFooter />}
+      
+      {/* Analytics Page */}
+      {isAnalyticsToggled && <AnalyticsPage />}
+      
       <div className={"bodyPart ml-auto flex w-5/6 flex-wrap justify-end gap-2 py-2 px-2"}>
         <ProfileDropdown />
         <div className="settingsButton">

@@ -44,6 +44,11 @@ import {
   IPosKanban,
   ISeoContent,
   IKanbanBoardState,
+  WidgetMode,
+  IWidgetModeState,
+  IToggleAnalytics,
+  IFocusSessionState,
+  IFocusSession,
 } from "./interfaces";
 import { InfoSection } from "./pages/InfoSection";
 import { uuid } from "uuidv4";
@@ -719,7 +724,7 @@ export const useFullScreenToggleStore = create<IFullscreenState>(
  * Handle the visibility of motivational/programming quotes
  */
 
-export const useToggleQuote = create<IToggleQuote>(
+export const useToggleQu ote = create<IToggleQuote>(
   persist(
     (set, _) => ({
       isQuoteToggled: false,
@@ -904,3 +909,113 @@ export const useSeoVisibilityStore = create<ISeoContent>(
     { name: "state_seo_visibility" }
   )
 );
+
+/**
+ * Widget Mode Store
+ * ---
+ * Handles storing current widget mode
+ */
+export const useWidgetMode = create<IWidgetModeState>(
+  persist(
+    (set, _) => ({
+      currentMode: WidgetMode.CUSTOM,
+      setMode: mode => set({ currentMode: mode }),
+    }),
+    { name: "widget_mode" }
+  )
+);
+
+/**
+ * Analytics Store
+ * ---
+ * Handle the visibility of the analytics page
+ */
+export const useToggleAnalytics = create<IToggleAnalytics>(
+  persist(
+    (set, _) => ({
+      isAnalyticsToggled: false,
+      setIsAnalyticsToggled: isAnalyticsToggled => set({ isAnalyticsToggled }),
+      isAnalyticsShown: true,
+      setIsAnalyticsShown: isAnalyticsShown => set({ isAnalyticsShown }),
+    }),
+    {
+      name: "state_analytics_section",
+    }
+  )
+);
+
+/**
+ * Focus Session Store
+ * ---
+ * Handle focus session tracking (local state only)
+ */
+export const useFocusSession = create<IFocusSessionState>(set => ({
+  sessions: [],
+  currentSession: null,
+  addSession: (session) => {
+    const newSession = {
+      ...session,
+      id: v4(),
+      created_at: new Date(),
+    }
+    set(state => ({
+      sessions: [newSession, ...state.sessions]
+    }))
+  },
+  updateSession: (id, updates) => {
+    set(state => ({
+      sessions: state.sessions.map(session =>
+        session.id === id ? { ...session, ...updates } : session
+      )
+    }))
+  },
+  deleteSession: (id) => {
+    set(state => ({
+      sessions: state.sessions.filter(session => session.id !== id)
+    }))
+  },
+  startSession: (type, taskId, taskCategory) => {
+    const newSession: IFocusSession = {
+      id: v4(),
+      user_id: 'local',
+      start_time: new Date(),
+      end_time: new Date(),
+      duration: 0,
+      session_type: type,
+      task_id: taskId,
+      task_category: taskCategory || 'General',
+      completed: false,
+      created_at: new Date(),
+    }
+    set({ currentSession: newSession })
+  },
+  endSession: (completed) => {
+    set(state => {
+      if (!state.currentSession) return state
+      
+      const endTime = new Date()
+      const duration = Math.floor((endTime.getTime() - state.currentSession.start_time.getTime()) / 1000)
+      
+      const completedSession = {
+        ...state.currentSession,
+        end_time: endTime,
+        duration,
+        completed,
+      }
+      
+      return {
+        currentSession: null,
+        sessions: [completedSession, ...state.sessions]
+      }
+    })
+  },
+  getSessions: (startDate, endDate) => {
+    const { sessions } = useFocusSession.getState()
+    if (!startDate || !endDate) return sessions
+    
+    return sessions.filter(session => {
+      const sessionDate = new Date(session.start_time)
+      return sessionDate >= startDate && sessionDate <= endDate
+    })
+  },
+}));

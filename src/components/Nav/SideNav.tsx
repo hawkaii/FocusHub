@@ -5,7 +5,8 @@ import { CgNotes } from "react-icons/cg";
 import { MdOutlineTimer, MdWbSunny, MdDarkMode, MdOutlineNoteAdd, MdOutlineViewKanban } from "react-icons/md";
 import { VscDebugRestartFrame } from "react-icons/vsc";
 import { BsArrowsFullscreen, BsFillChatLeftQuoteFill, BsTwitch, BsYoutube } from "react-icons/bs";
-import { FaSpotify } from "react-icons/fa";
+import { FaSpotify, FaChartLine } from "react-icons/fa";
+import { IoStatsChartOutline } from "react-icons/io5";
 import {
   useToggleMusic,
   useToggleTimer,
@@ -21,6 +22,7 @@ import {
   useToggleYoutube,
   useSideNavOrderStore,
   useToggleKanban,
+  useToggleAnalytics,
 } from "@Store";
 import { useState, useEffect } from "react";
 import useSetDefault from "@App/utils/hooks/useSetDefault";
@@ -42,6 +44,7 @@ export const SideNav = () => {
   const { isQuoteToggled, setIsQuoteToggled } = useToggleQuote();
   const { isTwitchToggled, setIsTwitchToggled } = useToggleTwitch();
   const { isYoutubeToggled, setIsYoutubeToggled } = useToggleYoutube();
+  const { isAnalyticsToggled, setIsAnalyticsToggled } = useToggleAnalytics();
 
   const { isTimerShown } = useToggleTimer();
   const { isStickyNoteShown } = useToggleStickyNote();
@@ -55,6 +58,7 @@ export const SideNav = () => {
   const { isWidgetResetShown } = useToggleWidgetReset();
   const { isTwitchShown } = useToggleTwitch();
   const { isYoutubeShown } = useToggleYoutube();
+  const { isAnalyticsShown } = useToggleAnalytics();
 
   const { sideNavOrder, setSideNavOrder } = useSideNavOrderStore();
 
@@ -205,6 +209,16 @@ export const SideNav = () => {
       toggleString: "Youtube Toggled",
       toggleIcon: "▶️",
       isShown: isYoutubeShown,
+    },
+    {
+      id: "13",
+      content: <IoStatsChartOutline className="h-6 w-6" />,
+      tooltipTitle: "Analytics",
+      isToggled: isAnalyticsToggled,
+      setToggled: setIsAnalyticsToggled,
+      toggleString: "Analytics Toggled",
+      toggleIcon: "📊",
+      isShown: isAnalyticsShown,
     },
   ];
 
