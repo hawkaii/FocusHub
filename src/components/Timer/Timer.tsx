@@ -12,9 +12,12 @@ import {
   useAudioVolume,
   useAlarmOption,
 } from "@Store";
+import { useAuth } from "@App/hooks/useAuth";
+import { useRealtimeAnalytics } from "@App/hooks/useRealtimeAnalytics";
 import toast from "react-hot-toast";
 import { secondsToTime, formatDisplayTime } from "@Utils/utils";
 import { successToast } from "@Utils/toast";
+import { calculateDuration } from "@Utils/timeUtils";
 import clsx from "clsx";
 
 export const Timer = () => {
@@ -30,8 +33,11 @@ export const Timer = () => {
   const [timerSeconds, setTimerSeconds] = useState("00");
   const [timerIntervalId, setTimerIntervalId] = useState(null);
   const [sessionType, setSessionType] = useState("Session");
+  const [sessionStartTime, setSessionStartTime] = useState<Date | null>(null);
   const { setIsTimerToggled } = useToggleTimer();
   const { alarm } = useAlarmOption();
+  const { user } = useAuth();
+  const { addSession } = useRealtimeAnalytics();
 
   const audioRef = useRef();
   const { audioVolume } = useAudioVolume();
@@ -47,10 +53,27 @@ export const Timer = () => {
       audioRef.current.volume = audioVolume;
       // @ts-ignore
       audioRef.current.play();
+      
+      // Save completed session to analytics
+      if (sessionStartTime && user) {
+        const endTime = new Date();
+        const duration = calculateDuration(sessionStartTime, endTime);
+        
+        addSession({
+          userId: user.uid,
+          startTime: sessionStartTime,
+          endTime,
+          duration,
+          type: sessionType === "Session" ? 'work' : (breakLength === shortBreakLength ? 'short-break' : 'long-break'),
+          completed: true,
+        });
+      }
+      
       if (sessionType === "Session") {
         setSessionType("Break");
         setTimer(breakLength);
         setBreakStarted(true);
+        setSessionStartTime(new Date()); // Start tracking break time
         toast(
           t => (
             <div className="flex items-center justify-between">
@@ -77,6 +100,7 @@ export const Timer = () => {
         setTimer(pomodoroLength);
         setBreakStarted(false);
         setTimerQueue(pomodoroLength);
+        setSessionStartTime(new Date()); // Start tracking work time
         toast.dismiss();
         toast(
           t => (
@@ -101,7 +125,7 @@ export const Timer = () => {
         );
       }
     }
-  }, [timer, sessionType, audioVolume]);
+  }, [timer, sessionType, audioVolume, sessionStartTime, user, addSession, breakLength, shortBreakLength, pomodoroLength]);
 
   useEffect(() => {
     setTimer(pomodoroLength);
@@ -130,12 +154,34 @@ export const Timer = () => {
 
   function toggleCountDown() {
     if (hasStarted) {
+      // Pausing - save incomplete session if user is authenticated
+      if (sessionStartTime && user) {
+        const endTime = new Date();
+        const duration = calculateDuration(sessionStartTime, endTime);
+        
+        // Only save if session was longer than 30 seconds
+        if (duration > 30) {
+          addSession({
+            userId: user.uid,
+            startTime: sessionStartTime,
+            endTime,
+            duration,
+            type: sessionType === "Session" ? 'work' : (breakLength === shortBreakLength ? 'short-break' : 'long-break'),
+            completed: false, // Mark as incomplete since it was paused
+          });
+        }
+      }
+      
       // started mode
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
       }
       setTimerIntervalId(null);
+      setSessionStartTime(null);
     } else {
+      // Starting - record start time
+      setSessionStartTime(new Date());
+      
       // stopped mode
       // create accurate date timer with date
       const newIntervalId = setInterval(() => {
@@ -154,12 +200,31 @@ export const Timer = () => {
   }
 
   function handleResetTimer() {
+    // Save incomplete session if there was one running
+    if (sessionStartTime && user && hasStarted) {
+      const endTime = new Date();
+      const duration = calculateDuration(sessionStartTime, endTime);
+      
+      // Only save if session was longer than 30 seconds
+      if (duration > 30) {
+        addSession({
+          userId: user.uid,
+          startTime: sessionStartTime,
+          endTime,
+          duration,
+          type: sessionType === "Session" ? 'work' : (breakLength === shortBreakLength ? 'short-break' : 'long-break'),
+          completed: false, // Mark as incomplete since it was reset
+        });
+      }
+    }
+    
     // @ts-ignore
     audioRef?.current?.load();
     if (timerIntervalId) {
       clearInterval(timerIntervalId);
     }
     setTimerIntervalId(null);
+    setSessionStartTime(null);
     setPomodoroLength(pomodoroLength);
     setShortBreak(shortBreakLength);
     setLongBreak(longBreakLength);

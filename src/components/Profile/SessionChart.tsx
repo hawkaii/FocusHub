@@ -38,23 +38,28 @@ export const SessionChart = ({ sessions, timeRange }: SessionChartProps) => {
     )
 
     // Group sessions by the specified time unit
-    const groupedSessions = new Map<string, number>()
+    const groupedSessions = new Map<string, { count: number; totalTime: number }>()
     filteredSessions.forEach(session => {
       const key = groupBy(session.startTime)
-      groupedSessions.set(key, (groupedSessions.get(key) || 0) + 1)
+      const existing = groupedSessions.get(key) || { count: 0, totalTime: 0 }
+      groupedSessions.set(key, {
+        count: existing.count + 1,
+        totalTime: existing.totalTime + session.duration
+      })
     })
 
     // Generate chart data points
-    const dataPoints: { label: string; value: number; date: Date }[] = []
+    const dataPoints: { label: string; sessions: number; focusTime: number; date: Date }[] = []
     const currentDate = new Date(startDate)
     
     while (currentDate <= now) {
       const key = groupBy(currentDate)
-      const value = groupedSessions.get(key) || 0
+      const data = groupedSessions.get(key) || { count: 0, totalTime: 0 }
       
       dataPoints.push({
         label: dateFormat(new Date(currentDate)),
-        value,
+        sessions: data.count,
+        focusTime: data.totalTime,
         date: new Date(currentDate)
       })
 
@@ -69,45 +74,97 @@ export const SessionChart = ({ sessions, timeRange }: SessionChartProps) => {
     return dataPoints
   }, [sessions, timeRange])
 
-  const maxValue = Math.max(...chartData.map(d => d.value), 1)
+  const maxSessions = Math.max(...chartData.map(d => d.sessions), 1)
+  const maxFocusTime = Math.max(...chartData.map(d => d.focusTime), 1)
+
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600)
+    const minutes = Math.floor((seconds % 3600) / 60)
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes > 0 ? `${minutes}m` : ''}`
+    }
+    return `${minutes}m`
+  }
 
   return (
-    <div className="space-y-4">
-      {/* Chart */}
-      <div className="flex items-end justify-between h-32 space-x-1">
-        {chartData.map((point, index) => (
-          <div key={index} className="flex-1 flex flex-col items-center">
-            <div className="flex-1 flex items-end w-full">
-              <div
-                className="w-full bg-accent-orange rounded-t-sm transition-all duration-300 hover:bg-hover-accent"
-                style={{
-                  height: `${(point.value / maxValue) * 100}%`,
-                  minHeight: point.value > 0 ? '4px' : '0px'
-                }}
-                title={`${point.value} sessions on ${point.label}`}
-              />
+    <div className="space-y-6">
+      {/* Sessions Chart */}
+      <div>
+        <h4 className="text-lg font-semibold text-text-primary mb-4">Sessions per {timeRange === 'year' ? 'Month' : 'Day'}</h4>
+        <div className="flex items-end justify-between h-40 space-x-1">
+          {chartData.map((point, index) => (
+            <div key={index} className="flex-1 flex flex-col items-center">
+              <div className="flex-1 flex items-end w-full">
+                <div
+                  className="w-full bg-accent-orange rounded-t-sm transition-all duration-300 hover:bg-hover-accent cursor-pointer"
+                  style={{
+                    height: `${(point.sessions / maxSessions) * 100}%`,
+                    minHeight: point.sessions > 0 ? '4px' : '0px'
+                  }}
+                  title={`${point.sessions} sessions on ${point.label}`}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div className="flex justify-between text-xs text-text-secondary mt-2">
+          {chartData.map((point, index) => (
+            <span key={index} className="text-center flex-1">
+              {point.label}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* Labels */}
-      <div className="flex justify-between text-xs text-text-secondary">
-        {chartData.map((point, index) => (
-          <span key={index} className="text-center flex-1">
-            {point.label}
-          </span>
-        ))}
+      {/* Focus Time Chart */}
+      <div>
+        <h4 className="text-lg font-semibold text-text-primary mb-4">Focus Time per {timeRange === 'year' ? 'Month' : 'Day'}</h4>
+        <div className="flex items-end justify-between h-40 space-x-1">
+          {chartData.map((point, index) => (
+            <div key={index} className="flex-1 flex flex-col items-center">
+              <div className="flex-1 flex items-end w-full">
+                <div
+                  className="w-full bg-supporting-blue rounded-t-sm transition-all duration-300 hover:bg-hover-primary cursor-pointer"
+                  style={{
+                    height: `${(point.focusTime / maxFocusTime) * 100}%`,
+                    minHeight: point.focusTime > 0 ? '4px' : '0px'
+                  }}
+                  title={`${formatTime(point.focusTime)} focus time on ${point.label}`}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between text-xs text-text-secondary mt-2">
+          {chartData.map((point, index) => (
+            <span key={index} className="text-center flex-1">
+              {point.label}
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Summary */}
-      <div className="flex justify-between items-center pt-2 border-t border-border-light">
-        <span className="text-sm text-text-secondary">
-          Total sessions: {chartData.reduce((sum, point) => sum + point.value, 0)}
-        </span>
-        <span className="text-sm text-text-secondary">
-          Peak: {maxValue} sessions
-        </span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-border-light">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-text-primary">
+            {chartData.reduce((sum, point) => sum + point.sessions, 0)}
+          </p>
+          <p className="text-sm text-text-secondary">Total Sessions</p>
+        </div>
+        <div className="text-center">
+          <p className="text-2xl font-bold text-text-primary">
+            {formatTime(chartData.reduce((sum, point) => sum + point.focusTime, 0))}
+          </p>
+          <p className="text-sm text-text-secondary">Total Focus Time</p>
+        </div>
+        <div className="text-center">
+          <p className="text-2xl font-bold text-text-primary">
+            {maxSessions}
+          </p>
+          <p className="text-sm text-text-secondary">Peak Sessions</p>
+        </div>
       </div>
     </div>
   )
