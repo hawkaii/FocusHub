@@ -72,13 +72,13 @@ export const ProfileDropdown = () => {
   }
 
   const getUserDisplayName = () => {
-    if (user?.user_metadata?.full_name) return user.user_metadata.full_name
+    if (user?.displayName) return user.displayName
     if (user?.email) return user.email.split('@')[0]
     return 'User'
   }
 
   const getUserAvatar = () => {
-    if (user?.user_metadata?.avatar_url) return user.user_metadata.avatar_url
+    if (user?.photoURL) return user.photoURL
     return null
   }
 
