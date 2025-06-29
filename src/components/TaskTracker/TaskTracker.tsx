@@ -13,7 +13,7 @@ export const TaskTracker = () => {
   const [isTaskInfoModalOpen, setIsTaskInfoModalOpen] = useState(false);
 
   return (
-    <div className="mb-2 w-72 sm:w-96 rounded-lg border border-border-light bg-background-primary/95 shadow-card backdrop-blur-sm">
+    <div className="mb-2 w-72 sm:w-96 rounded-lg border border-border-light bg-background-primary shadow-card backdrop-blur-sm">
       <div className="handle flex w-full cursor-move justify-between p-3 border-b border-border-light">
         <div className="flex items-center space-x-2">
           <TaskInfoModal isVisible={isTaskInfoModalOpen} onClose={() => setIsTaskInfoModalOpen(false)} />

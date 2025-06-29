@@ -31,27 +31,27 @@
   --color-info: #3B82F6;
 }
 
-/* Dark mode color overrides */
+/* Dark mode color overrides with increased opacity */
 .dark {
-  /* Dark Mode Text Colors */
-  --color-text-primary: #F9FAFB;
-  --color-text-secondary: #D1D5DB;
-  --color-text-muted: #9CA3AF;
+  /* Dark Mode Text Colors - Higher contrast */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #E5E7EB;
+  --color-text-muted: #D1D5DB;
   
-  /* Dark Mode Background Colors */
-  --color-background-primary: #1F2937;
-  --color-background-secondary: #374151;
-  --color-background-tertiary: #4B5563;
+  /* Dark Mode Background Colors - More opaque */
+  --color-background-primary: #111827;
+  --color-background-secondary: #1F2937;
+  --color-background-tertiary: #374151;
   
-  /* Dark Mode Border Colors */
-  --color-border-light: #4B5563;
-  --color-border-medium: #6B7280;
-  --color-border-dark: #9CA3AF;
+  /* Dark Mode Border Colors - More visible */
+  --color-border-light: #374151;
+  --color-border-medium: #4B5563;
+  --color-border-dark: #6B7280;
   
   /* Dark Mode Interactive States */
   --color-hover-primary: #6B7280;
   --color-hover-accent: #F97316;
-  --color-active: #F9FAFB;
+  --color-active: #FFFFFF;
   
   /* Dark Mode Status Colors (adjusted for dark backgrounds) */
   --color-success: #34D399;

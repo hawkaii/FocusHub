@@ -68,7 +68,7 @@ export const Player = () => {
 
   return (
     <>
-      <div className="mb-2 w-72 rounded-lg border border-border-light bg-background-primary/95 py-4 px-3 text-text-primary shadow-card backdrop-blur-sm sm:w-96">
+      <div className="mb-2 w-72 rounded-lg border border-border-light bg-background-primary py-4 px-3 text-text-primary shadow-card backdrop-blur-sm sm:w-96">
         <div className="flex items-center justify-between space-x-6 mb-4 pb-3 border-b border-border-light">
           <div className="font-medium text-text-primary">{song?.artist}</div>
           <div className="flex space-x-2 items-center">

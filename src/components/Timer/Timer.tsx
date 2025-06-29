@@ -183,8 +183,8 @@ export const Timer = () => {
       className={clsx(
         "dwidth sm:w-96 mb-2 max-w-sm rounded-lg border shadow-card transition-all duration-200",
         breakStarted 
-          ? "bg-blue-50/95 border-info shadow-card-hover" 
-          : "bg-background-primary/95 border-border-light",
+          ? "bg-blue-50 border-info shadow-card-hover dark:bg-blue-900/30" 
+          : "bg-background-primary border-border-light",
         "backdrop-blur-sm"
       )}
     >
