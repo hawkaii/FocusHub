@@ -324,3 +324,71 @@ export interface ISeoContent {
 export interface ISeoToggle {
     onButtonClick: () => void;
 }
+
+// New interfaces for profile and analytics
+export interface IPomodoroSession {
+  id: string;
+  userId: string;
+  startTime: Date;
+  endTime: Date;
+  duration: number; // in seconds
+  type: 'work' | 'short-break' | 'long-break';
+  taskId?: string;
+  completed: boolean;
+  createdAt: Date;
+}
+
+export interface IUserStats {
+  totalSessions: number;
+  totalFocusTime: number; // in seconds
+  averageSessionLength: number; // in seconds
+  longestStreak: number; // in days
+  currentStreak: number; // in days
+  sessionsToday: number;
+  focusTimeToday: number; // in seconds
+  sessionsThisWeek: number;
+  focusTimeThisWeek: number; // in seconds
+  sessionsThisMonth: number;
+  focusTimeThisMonth: number; // in seconds
+}
+
+export interface IHeatmapData {
+  date: string; // YYYY-MM-DD format
+  count: number; // number of sessions
+  level: number; // 0-4 intensity level
+}
+
+export interface IUserProfile {
+  id: string;
+  email: string;
+  displayName?: string;
+  photoURL?: string;
+  joinedAt: Date;
+  lastActiveAt: Date;
+  preferences: {
+    defaultPomodoroLength: number;
+    defaultShortBreak: number;
+    defaultLongBreak: number;
+    dailyGoal: number; // number of pomodoros
+    notifications: boolean;
+    theme: 'light' | 'dark' | 'auto';
+  };
+}
+
+export interface IAnalyticsState {
+  sessions: IPomodoroSession[];
+  userStats: IUserStats;
+  heatmapData: IHeatmapData[];
+  addSession: (session: Omit<IPomodoroSession, 'id' | 'createdAt'>) => void;
+  updateSession: (id: string, updates: Partial<IPomodoroSession>) => void;
+  getSessionsByDateRange: (startDate: Date, endDate: Date) => IPomodoroSession[];
+  calculateStats: () => void;
+  generateHeatmapData: (year: number) => IHeatmapData[];
+}
+
+export interface IToggleProfile {
+  isProfileToggled: boolean;
+  setIsProfileToggled: (isProfileToggled: boolean) => void;
+  isProfileShown: boolean;
+  setIsProfileShown: (isProfileShown: boolean) => void;
+}

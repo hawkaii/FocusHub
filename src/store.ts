@@ -44,6 +44,7 @@ import {
   IPosKanban,
   ISeoContent,
   IKanbanBoardState,
+  IToggleProfile,
 } from "./interfaces";
 import { InfoSection } from "./pages/InfoSection";
 import { uuid } from "uuidv4";
@@ -902,5 +903,25 @@ export const useSeoVisibilityStore = create<ISeoContent>(
       setSeoVisibility: isSeoVisible => set({ isSeoVisible }),
     }),
     { name: "state_seo_visibility" }
+  )
+);
+
+/**
+ * Profile Section Store
+ * ---
+ * Handle the visibility of the profile section
+ */
+
+export const useToggleProfile = create<IToggleProfile>(
+  persist(
+    (set, _) => ({
+      isProfileToggled: false,
+      setIsProfileToggled: isProfileToggled => set({ isProfileToggled }),
+      isProfileShown: false,
+      setIsProfileShown: isProfileShown => set({ isProfileShown }),
+    }),
+    {
+      name: "state_profile_section",
+    }
   )
 );

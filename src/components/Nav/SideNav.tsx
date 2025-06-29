@@ -5,7 +5,7 @@ import { CgNotes } from "react-icons/cg";
 import { MdOutlineTimer, MdWbSunny, MdDarkMode, MdOutlineNoteAdd, MdOutlineViewKanban } from "react-icons/md";
 import { VscDebugRestartFrame } from "react-icons/vsc";
 import { BsArrowsFullscreen, BsFillChatLeftQuoteFill, BsTwitch, BsYoutube } from "react-icons/bs";
-import { FaSpotify } from "react-icons/fa";
+import { FaSpotify, FaUser } from "react-icons/fa";
 import {
   useToggleMusic,
   useToggleTimer,
@@ -21,6 +21,7 @@ import {
   useToggleYoutube,
   useSideNavOrderStore,
   useToggleKanban,
+  useToggleProfile,
 } from "@Store";
 import { useState, useEffect } from "react";
 import useSetDefault from "@App/utils/hooks/useSetDefault";
@@ -42,6 +43,7 @@ export const SideNav = () => {
   const { isQuoteToggled, setIsQuoteToggled } = useToggleQuote();
   const { isTwitchToggled, setIsTwitchToggled } = useToggleTwitch();
   const { isYoutubeToggled, setIsYoutubeToggled } = useToggleYoutube();
+  const { isProfileToggled, setIsProfileToggled } = useToggleProfile();
 
   const { isTimerShown } = useToggleTimer();
   const { isStickyNoteShown } = useToggleStickyNote();
@@ -55,6 +57,7 @@ export const SideNav = () => {
   const { isWidgetResetShown } = useToggleWidgetReset();
   const { isTwitchShown } = useToggleTwitch();
   const { isYoutubeShown } = useToggleYoutube();
+  const { isProfileShown } = useToggleProfile();
 
   const { sideNavOrder, setSideNavOrder } = useSideNavOrderStore();
 
@@ -205,6 +208,16 @@ export const SideNav = () => {
       toggleString: "Youtube Toggled",
       toggleIcon: "▶️",
       isShown: isYoutubeShown,
+    },
+    {
+      id: "13",
+      content: <FaUser className="h-6 w-6" />,
+      tooltipTitle: "Profile & Analytics",
+      isToggled: isProfileToggled,
+      setToggled: setIsProfileToggled,
+      toggleString: "Profile Toggled",
+      toggleIcon: "👤",
+      isShown: isProfileShown,
     },
   ];
 

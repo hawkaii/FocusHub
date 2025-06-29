@@ -11,6 +11,7 @@ import {
   useToggleTwitch,
   useToggleYoutube,
   useToggleKanban,
+  useToggleProfile,
   usePosMusic,
   usePosSpotify,
   usePosTimer,
@@ -30,6 +31,7 @@ import { DWrapper } from "@Components/Dragggable/Draggable";
 import { CryptoDonationButton } from "@App/components/Crypto/Donation";
 import { CustomizationButton } from "@App/components/Common/Buttons/CustomizationButton";
 import { ProfileDropdown } from "@Components/Auth/ProfileDropdown";
+import { ProfilePage } from "@Components/Profile/ProfilePage";
 import { GoGear } from "react-icons/go";
 import { SettingsModal } from "@App/components/Settings/Modal";
 import { MdWidgets } from "react-icons/md";
@@ -57,6 +59,7 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
   const { isTwitchToggled, isTwitchShown } = useToggleTwitch();
   const { isYoutubeToggled, isYoutubeShown } = useToggleYoutube();
   const { isKanbanToggled, isKanbanShown } = useToggleKanban();
+  const { isProfileToggled, setIsProfileToggled } = useToggleProfile();
 
   // Position hooks
   const { taskPosX, taskPosY, setTaskPos } = usePosTask();
@@ -110,6 +113,9 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
           />
         </div>
       </div>
+
+      {/* Profile Page Modal */}
+      <ProfilePage isVisible={isProfileToggled} onClose={() => setIsProfileToggled(false)} />
 
       {
         // <CryptoDonationButton />
