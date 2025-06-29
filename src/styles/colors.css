@@ -1,0 +1,77 @@
+/* Color Palette Variables */
+:root {
+  /* Primary Colors */
+  --color-primary-dark: #2D3142;
+  --color-secondary-light: #BFC0C0;
+  --color-white: #FFFFFF;
+  --color-accent-orange: #EF8354;
+  --color-supporting-blue: #4F5D75;
+  
+  /* Semantic Color Variations */
+  --color-text-primary: #2D3142;
+  --color-text-secondary: #4F5D75;
+  --color-text-muted: #6B7280;
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F8F9FA;
+  --color-background-tertiary: #BFC0C0;
+  --color-border-light: #E5E7EB;
+  --color-border-medium: #BFC0C0;
+  --color-border-dark: #4F5D75;
+  
+  /* Interactive States */
+  --color-hover-primary: #4F5D75;
+  --color-hover-accent: #D16B3A;
+  --color-focus-ring: #EF8354;
+  --color-active: #2D3142;
+  
+  /* Status Colors (maintaining accessibility) */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* Dark Mode Variants */
+  --color-dark-bg-primary: #1F2937;
+  --color-dark-bg-secondary: #374151;
+  --color-dark-text-primary: #F9FAFB;
+  --color-dark-text-secondary: #D1D5DB;
+  --color-dark-border: #4B5563;
+}
+
+/* Dark mode color overrides */
+.dark {
+  --color-text-primary: var(--color-dark-text-primary);
+  --color-text-secondary: var(--color-dark-text-secondary);
+  --color-background-primary: var(--color-dark-bg-primary);
+  --color-background-secondary: var(--color-dark-bg-secondary);
+  --color-border-light: var(--color-dark-border);
+  --color-border-medium: var(--color-dark-border);
+}
+
+/* Accessibility utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for accessibility */
+.focus-ring {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: #000000;
+    --color-background-primary: #FFFFFF;
+    --color-accent-orange: #CC6600;
+  }
+}
