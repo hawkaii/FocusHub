@@ -120,11 +120,11 @@ export const Timer = () => {
     if (hasStarted) {
       const icon = sessionType === "Session" ? "⏱" : "☕️";
       // @ts-ignore
-      document.title = `FocusStation ${icon}${formatDisplayTime(parseInt(timerMinutes))}:${formatDisplayTime(
+      document.title = `FocusHub ${icon}${formatDisplayTime(parseInt(timerMinutes))}:${formatDisplayTime(
         parseInt(timerSeconds)
       )}`;
     } else {
-      document.title = "FocusStation";
+      document.title = "FocusHub";
     }
   }, [hasStarted, timerMinutes, timerSeconds, sessionType]);
 
@@ -182,8 +182,8 @@ export const Timer = () => {
     <div
       className={clsx(
         "dwidth sm:w-96 mb-2 max-w-sm rounded-lg border shadow-card transition-all duration-200",
-        breakStarted 
-          ? "bg-blue-50 border-info shadow-card-hover dark:bg-blue-900/30" 
+        breakStarted
+          ? "bg-blue-50 border-info shadow-card-hover dark:bg-blue-900/30"
           : "bg-background-primary border-border-light",
         "backdrop-blur-sm"
       )}
