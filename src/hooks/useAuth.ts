@@ -1,33 +1,41 @@
 import { useEffect, useState } from 'react'
-import { 
-  User, 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut as firebaseSignOut,
-  signInWithPopup,
-  GoogleAuthProvider 
-} from 'firebase/auth'
-import { auth } from '@App/lib/firebase'
+import { User, Session } from '@supabase/supabase-js'
+import { supabase } from '@App/lib/supabase'
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user)
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setUser(session?.user ?? null)
       setLoading(false)
     })
 
-    return () => unsubscribe()
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+      setUser(session?.user ?? null)
+      setLoading(false)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const signInWithGoogle = async () => {
     try {
-      const provider = new GoogleAuthProvider()
-      const userCredential = await signInWithPopup(auth, provider)
-      return { data: userCredential, error: null }
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin
+        }
+      })
+      return { data, error }
     } catch (error: any) {
       return { data: null, error }
     }
@@ -35,8 +43,11 @@ export function useAuth() {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      return { data: userCredential, error: null }
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      return { data, error }
     } catch (error: any) {
       return { data: null, error }
     }
@@ -44,8 +55,11 @@ export function useAuth() {
 
   const signUp = async (email: string, password: string) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      return { data: userCredential, error: null }
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      })
+      return { data, error }
     } catch (error: any) {
       return { data: null, error }
     }
@@ -53,8 +67,8 @@ export function useAuth() {
 
   const signOut = async () => {
     try {
-      await firebaseSignOut(auth)
-      return { error: null }
+      const { error } = await supabase.auth.signOut()
+      return { error }
     } catch (error: any) {
       return { error }
     }
@@ -62,6 +76,7 @@ export function useAuth() {
 
   return {
     user,
+    session,
     loading,
     signIn,
     signUp,
