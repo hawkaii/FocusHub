@@ -68,16 +68,16 @@ export const Player = () => {
 
   return (
     <>
-      <div className="mb-2 w-72 rounded-lg border border-gray-200 bg-white/[.96] py-4 px-3 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800/[.96] dark:text-gray-300 sm:w-96 ">
-        <div className="flex items-center justify-between space-x-6">
-          <div>{song?.artist}</div>
-          <div className="flex space-x-2">
+      <div className="mb-2 w-72 rounded-lg border border-border-light bg-background-primary/95 py-4 px-3 text-text-primary shadow-card backdrop-blur-sm sm:w-96">
+        <div className="flex items-center justify-between space-x-6 mb-4 pb-3 border-b border-border-light">
+          <div className="font-medium text-text-primary">{song?.artist}</div>
+          <div className="flex space-x-2 items-center">
             <IconContext.Provider value={{ size: "1.1rem" }}>
-              <FaYoutube />
+              <FaYoutube className="text-error" />
             </IconContext.Provider>
             <IconContext.Provider value={{ size: "1.1rem" }}>
               <IoCloseSharp
-                className="cursor-pointer text-red-500 hover:bg-red-200"
+                className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200"
                 onClick={() => setIsMusicToggled(false)}
               />
             </IconContext.Provider>
@@ -90,28 +90,44 @@ export const Player = () => {
           // @ts-ignore
           opts={opts}
         />
-        <div className="space-y-2">
+        <div className="space-y-4">
           <div className="flex items-center space-x-3">
             <IconContext.Provider value={{ size: "1.5rem" }}>
-              {playAudio ? <FaPlayCircle onClick={triggerAudio} /> : <FaPauseCircle onClick={triggerAudio} />}
+              {playAudio ? (
+                <FaPlayCircle 
+                  onClick={triggerAudio} 
+                  className="cursor-pointer text-accent-orange hover:text-hover-accent transition-colors duration-200" 
+                />
+              ) : (
+                <FaPauseCircle 
+                  onClick={triggerAudio} 
+                  className="cursor-pointer text-accent-orange hover:text-hover-accent transition-colors duration-200" 
+                />
+              )}
             </IconContext.Provider>
-            <Slider
-              defaultValue={audioVolume}
-              onChange={value => {
-                onVolumeChange(value as number);
-              }}
-              railStyle={{
-                backgroundColor: "#000",
-              }}
-              handleStyle={{
-                backgroundColor: "#fff",
-                opacity: 1,
-                color: "red",
-              }}
-              trackStyle={{
-                backgroundColor: "#fff",
-              }}
-            />
+            <div className="flex-1">
+              <Slider
+                defaultValue={audioVolume}
+                onChange={value => {
+                  onVolumeChange(value as number);
+                }}
+                railStyle={{
+                  backgroundColor: "#BFC0C0",
+                  height: 6,
+                }}
+                handleStyle={{
+                  backgroundColor: "#EF8354",
+                  borderColor: "#EF8354",
+                  opacity: 1,
+                  height: 18,
+                  width: 18,
+                }}
+                trackStyle={{
+                  backgroundColor: "#EF8354",
+                  height: 6,
+                }}
+              />
+            </div>
           </div>
           <StationSelector />
         </div>

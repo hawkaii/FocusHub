@@ -11,9 +11,10 @@ export const NavItem: FC<{
       <li>
         <button
           className={clsx(
-            "relative flex h-14 items-center bg-white px-4 dark:bg-gray-800 dark:text-white sm:h-16 sm:px-6 md:hover:bg-gray-200 md:hover:dark:bg-gray-700",
+            "relative flex h-14 items-center bg-background-primary px-4 text-text-primary transition-all duration-200 ease-in-out sm:h-16 sm:px-6",
+            "hover:bg-background-secondary hover:text-supporting-blue focus:outline-none focus:ring-2 focus:ring-accent-orange focus:ring-inset",
             toggled &&
-              "border-b-2 border-black bg-violet-500 text-white dark:bg-violet-500 md:hover:bg-violet-400 md:hover:dark:bg-violet-400"
+              "bg-accent-orange text-white border-l-4 border-hover-accent shadow-md hover:bg-hover-accent"
           )}
           onClick={onClick}
         >
