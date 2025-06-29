@@ -29,6 +29,7 @@ import { BackgroundNav } from "@Components/Nav/BackgroundNav";
 import { DWrapper } from "@Components/Dragggable/Draggable";
 import { CryptoDonationButton } from "@App/components/Crypto/Donation";
 import { CustomizationButton } from "@App/components/Common/Buttons/CustomizationButton";
+import { ProfileDropdown } from "@Components/Auth/ProfileDropdown";
 import { GoGear } from "react-icons/go";
 import { SettingsModal } from "@App/components/Settings/Modal";
 import { MdWidgets } from "react-icons/md";
@@ -78,6 +79,7 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
     <div ref={ref} className="pb-8 md:h-screen md:pb-0">
       {backgroundId == Background.UNSPLASH && <UnsplashFooter />}
       <div className={"bodyPart ml-auto flex w-5/6 flex-wrap justify-end gap-2 py-2 px-2"}>
+        <ProfileDropdown />
         <div className="settingsButton">
           <CustomizationButton
             title="Settings"

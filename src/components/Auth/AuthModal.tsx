@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { IoCloseSharp } from 'react-icons/io5'
+import { FaGoogle } from 'react-icons/fa'
 import { useAuth } from '@App/hooks/useAuth'
 import { Button } from '@Components/Common/Button'
 import { successToast, failureToast } from '@Utils/toast'
@@ -14,7 +15,7 @@ export const AuthModal = ({ isVisible, onClose }: AuthModalProps) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signIn, signUp } = useAuth()
+  const { signIn, signUp, signInWithGoogle } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,6 +40,17 @@ export const AuthModal = ({ isVisible, onClose }: AuthModalProps) => {
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await signInWithGoogle()
+      if (error) throw error
+      successToast('Signed in with Google successfully!', false)
+      onClose()
+    } catch (error: any) {
+      failureToast(error.message || 'Google sign-in failed', false)
+    }
+  }
+
   if (!isVisible) return null
 
   return (
@@ -57,51 +69,73 @@ export const AuthModal = ({ isVisible, onClose }: AuthModalProps) => {
           />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:border-gray-600"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:border-gray-600"
-              required
-              minLength={6}
-            />
-          </div>
-
+        <div className="space-y-4">
           <Button
-            type="submit"
+            onClick={handleGoogleSignIn}
             variant="primary"
-            className="w-full"
-            disabled={loading}
+            className="w-full flex items-center justify-center space-x-2"
           >
-            {loading ? 'Loading...' : (isSignUp ? 'Create Account' : 'Sign In')}
+            <FaGoogle />
+            <span>Continue with Google</span>
           </Button>
-        </form>
 
-        <div className="mt-4 text-center">
-          <button
-            type="button"
-            onClick={() => setIsSignUp(!isSignUp)}
-            className="text-violet-600 hover:text-violet-800 dark:text-violet-400"
-          >
-            {isSignUp
-              ? 'Already have an account? Sign in'
-              : "Don't have an account? Sign up"
-            }
-          </button>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-2 text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                or
+              </span>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:border-gray-600"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-gray-700 dark:border-gray-600"
+                required
+                minLength={6}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? 'Loading...' : (isSignUp ? 'Create Account' : 'Sign In')}
+            </Button>
+          </form>
+
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-violet-600 hover:text-violet-800 dark:text-violet-400"
+            >
+              {isSignUp
+                ? 'Already have an account? Sign in'
+                : "Don't have an account? Sign up"
+              }
+            </button>
+          </div>
         </div>
       </div>
     </div>

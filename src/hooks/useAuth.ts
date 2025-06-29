@@ -4,7 +4,9 @@ import {
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
-  signOut as firebaseSignOut 
+  signOut as firebaseSignOut,
+  signInWithPopup,
+  GoogleAuthProvider 
 } from 'firebase/auth'
 import { auth } from '@App/lib/firebase'
 
@@ -20,6 +22,16 @@ export function useAuth() {
 
     return () => unsubscribe()
   }, [])
+
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider()
+      const userCredential = await signInWithPopup(auth, provider)
+      return { data: userCredential, error: null }
+    } catch (error: any) {
+      return { data: null, error }
+    }
+  }
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -53,6 +65,7 @@ export function useAuth() {
     loading,
     signIn,
     signUp,
+    signInWithGoogle,
     signOut,
   }
 }
