@@ -1,7 +1,113 @@
-@import url("https://fonts.googleapis.com/css2?family=Radio+Canada:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Radio+Canada:wght@300;400;500;600;700&display=swap");
+@import "./styles/colors.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Base styles with new color palette */
+@layer base {
+  html {
+    font-family: 'Radio Canada', system-ui, -apple-system, sans-serif;
+  }
+  
+  body {
+    color: var(--color-text-primary);
+    background-color: var(--color-background-primary);
+    line-height: 1.6;
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-primary);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  /* Links */
+  a {
+    color: var(--color-accent-orange);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  a:hover {
+    color: var(--color-hover-accent);
+  }
+  
+  a:focus {
+    @apply focus-ring;
+  }
+  
+  /* Form elements */
+  input, textarea, select {
+    border-color: var(--color-border-medium);
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--color-accent-orange);
+    box-shadow: 0 0 0 3px rgba(239, 131, 84, 0.1);
+    outline: none;
+  }
+  
+  /* Buttons */
+  button {
+    transition: all 0.2s ease;
+  }
+  
+  button:focus {
+    @apply focus-ring;
+  }
+}
+
+@layer components {
+  /* Custom component styles */
+  .btn-primary {
+    background-color: var(--color-accent-orange);
+    color: var(--color-white);
+    border: 2px solid var(--color-accent-orange);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-hover-accent);
+    border-color: var(--color-hover-accent);
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 2px solid var(--color-border-medium);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--color-background-secondary);
+    border-color: var(--color-supporting-blue);
+    color: var(--color-supporting-blue);
+  }
+  
+  .card {
+    background-color: var(--color-background-primary);
+    border: 1px solid var(--color-border-light);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(45, 49, 66, 0.1);
+    transition: all 0.2s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 15px -3px rgba(45, 49, 66, 0.15);
+    transform: translateY(-2px);
+  }
+}
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
 .scrollbar-hide::-webkit-scrollbar {

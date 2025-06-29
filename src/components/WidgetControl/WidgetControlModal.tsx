@@ -62,176 +62,224 @@ export const WidgetControlModal = ({ isVisible = false, onClose }) => {
   return !isVisible ? null : (
     <div className="modal" onClick={onClose}>
       <div
-        className="w-10/12 max-w-sm rounded-lg bg-white p-2 px-1 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 sm:w-96"
+        className="w-10/12 max-w-sm rounded-lg bg-background-primary p-4 text-text-primary shadow-card-hover border border-border-light sm:w-96"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex justify-end">
-          <IoCloseSharp className="cursor-pointer text-red-500 hover:bg-red-200" onClick={onClose} />
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold text-text-primary">Widget Control</h2>
+          <IoCloseSharp 
+            className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200" 
+            onClick={onClose} 
+          />
         </div>
-        <div>
-          <div className="text-center text-lg">Widget Control</div>
-          <div className="grid grid-cols-[30%,30%,30%] grid-rows-[100px,100px,100px,100px] justify-center gap-1 p-4 text-center">
-            <div
-              onClick={() =>
-                toggledToastNotification(isSpotifyShown, setIsSpotifyShown, "Spotify Widget Added", 750, "🎧")
-              }
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isSpotifyShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Spotify
-              <FaSpotify className="h-6 w-full" />
-            </div>
-            <div
-              onClick={() => toggledToastNotification(isMusicShown, setIsMusicShown, "Music Widget Added", 750, "🎧")}
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isMusicShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Chill Music
-              <IoMusicalNotesOutline className="h-6 w-full" />
-            </div>
-            <div
-              onClick={() =>
-                toggledToastNotification(isTasksShown, setIsTasksShown, "Task Tracker Widget Added", 750, "📓")
-              }
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isTasksShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Task Tracker
-              <CgNotes className="h-6 w-full" />
-            </div>
-            <div
-              onClick={() => toggledToastNotification(isTimerShown, setIsTimerShown, "Timer Widget Added", 750, "⏳")}
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isTimerShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Pomodoro Timer
-              <MdOutlineTimer className="h-6 w-full" />
-            </div>
-            <div
-              onClick={() =>
-                toggledToastNotification(isDarkModeShown, setIsDarkModeShown, "Theme Widget Added", 750, "🌙/☀️")
-              }
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isDarkModeShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Theme
-              <MdWbSunny className="h-6 w-full" />
-            </div>
-            {isDesktop && (
-              <div
-                onClick={() =>
-                  toggledToastNotification(
-                    isStickyNoteShown,
-                    setIsStickyNoteShown,
-                    "Sticky Note Widget Added",
-                    750,
-                    "📝"
-                  )
-                }
-                className={clsx(
-                  "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                  isStickyNoteShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-                )}
-              >
-                Sticky Notes
-                <MdOutlineNoteAdd className="h-6 w-full" />
-              </div>
+        
+        <div className="grid grid-cols-3 gap-3 text-center">
+          <div
+            onClick={() =>
+              toggledToastNotification(isSpotifyShown, setIsSpotifyShown, "Spotify Widget Added", 750, "🎧")
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isSpotifyShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
             )}
-            <div
-              onClick={() =>
-                toggledToastNotification(isWidgetResetShown, setIsWidgetResetShown, "Reset Widget Added", 750, "⏮️")
-              }
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isWidgetResetShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Reset
-              <VscDebugRestartFrame className="h-6 w-full" />
-            </div>
-            {isDesktop && (
-              <div
-                onClick={() =>
-                  toggledToastNotification(
-                    isFullscreenShown,
-                    setIsFullscreenShown,
-                    "Fullscreen Widget Added",
-                    750,
-                    "📺"
-                  )
-                }
-                className={clsx(
-                  "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                  isFullscreenShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-                )}
-              >
-                Fullscreen
-                <BsArrowsFullscreen className="h-6 w-full" />
-              </div>
+          >
+            <span className="text-sm font-medium">Spotify</span>
+            <FaSpotify className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() => toggledToastNotification(isMusicShown, setIsMusicShown, "Music Widget Added", 750, "🎧")}
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isMusicShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
             )}
-            <div
-              onClick={() => toggledToastNotification(isQuoteShown, setIsQuoteShown, "Quote Widget Added", 750, "💬")}
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isQuoteShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Quotes
-              <BsFillChatLeftQuoteFill className="h-6 w-full" />
-            </div>
-            <div
-              onClick={() =>
-                toggledToastNotification(isTwitchShown, setIsTwitchShown, "Twitch Widget Added", 750, "📺")
-              }
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isTwitchShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Twitch
-              <BsTwitch className="h-6 w-full" />
-            </div>
-            <div
-              onClick={() =>
-                toggledToastNotification(isYoutubeShown, setIsYoutubeShown, "Youtube Widget Added", 750, "▶️")
-              }
-              className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isYoutubeShown && "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
-              )}
-            >
-              Youtube
-              <BsYoutube className="h-6 w-full" />
-            </div>
+          >
+            <span className="text-sm font-medium">Chill Music</span>
+            <IoMusicalNotesOutline className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() =>
+              toggledToastNotification(isTasksShown, setIsTasksShown, "Task Tracker Widget Added", 750, "📓")
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isTasksShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Task Tracker</span>
+            <CgNotes className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() => toggledToastNotification(isTimerShown, setIsTimerShown, "Timer Widget Added", 750, "⏳")}
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isTimerShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Pomodoro Timer</span>
+            <MdOutlineTimer className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() =>
+              toggledToastNotification(isDarkModeShown, setIsDarkModeShown, "Theme Widget Added", 750, "🌙/☀️")
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isDarkModeShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Theme</span>
+            <MdWbSunny className="h-6 w-6 mx-auto" />
+          </div>
+          
+          {isDesktop && (
             <div
               onClick={() =>
                 toggledToastNotification(
-                  isKanbanShown,
-                  setIsKanbanShown,
-                  "Kanban board Widget Added",
+                  isStickyNoteShown,
+                  setIsStickyNoteShown,
+                  "Sticky Note Widget Added",
                   750,
-                  "📃"
+                  "📝"
                 )
               }
               className={clsx(
-                "grid cursor-pointer content-center justify-center gap-2 rounded md:hover:bg-gray-200 md:hover:text-gray-800 md:dark:hover:bg-violet-500",
-                isKanbanShown &&
-                  "dark:bg-violet-500 md:bg-gray-200 md:text-gray-800"
+                "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+                "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+                isStickyNoteShown 
+                  ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                  : "bg-background-primary border-border-light text-text-primary"
               )}
             >
-              Kanban board
-              <MdOutlineViewKanban className="h-6 w-full" />
+              <span className="text-sm font-medium">Sticky Notes</span>
+              <MdOutlineNoteAdd className="h-6 w-6 mx-auto" />
             </div>
+          )}
+          
+          <div
+            onClick={() =>
+              toggledToastNotification(isWidgetResetShown, setIsWidgetResetShown, "Reset Widget Added", 750, "⏮️")
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isWidgetResetShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Reset</span>
+            <VscDebugRestartFrame className="h-6 w-6 mx-auto" />
+          </div>
+          
+          {isDesktop && (
+            <div
+              onClick={() =>
+                toggledToastNotification(
+                  isFullscreenShown,
+                  setIsFullscreenShown,
+                  "Fullscreen Widget Added",
+                  750,
+                  "📺"
+                )
+              }
+              className={clsx(
+                "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+                "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+                isFullscreenShown 
+                  ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                  : "bg-background-primary border-border-light text-text-primary"
+              )}
+            >
+              <span className="text-sm font-medium">Fullscreen</span>
+              <BsArrowsFullscreen className="h-6 w-6 mx-auto" />
+            </div>
+          )}
+          
+          <div
+            onClick={() => toggledToastNotification(isQuoteShown, setIsQuoteShown, "Quote Widget Added", 750, "💬")}
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isQuoteShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Quotes</span>
+            <BsFillChatLeftQuoteFill className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() =>
+              toggledToastNotification(isTwitchShown, setIsTwitchShown, "Twitch Widget Added", 750, "📺")
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isTwitchShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Twitch</span>
+            <BsTwitch className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() =>
+              toggledToastNotification(isYoutubeShown, setIsYoutubeShown, "Youtube Widget Added", 750, "▶️")
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isYoutubeShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Youtube</span>
+            <BsYoutube className="h-6 w-6 mx-auto" />
+          </div>
+          
+          <div
+            onClick={() =>
+              toggledToastNotification(
+                isKanbanShown,
+                setIsKanbanShown,
+                "Kanban board Widget Added",
+                750,
+                "📃"
+              )
+            }
+            className={clsx(
+              "grid cursor-pointer content-center justify-center gap-2 rounded-lg p-3 transition-all duration-200 border",
+              "hover:bg-background-secondary hover:border-accent-orange hover:shadow-md",
+              isKanbanShown 
+                ? "bg-accent-orange text-white border-accent-orange shadow-md" 
+                : "bg-background-primary border-border-light text-text-primary"
+            )}
+          >
+            <span className="text-sm font-medium">Kanban board</span>
+            <MdOutlineViewKanban className="h-6 w-6 mx-auto" />
           </div>
         </div>
       </div>

@@ -135,17 +135,21 @@ export const TimerSettings = ({ onClose }) => {
   }
 
   return (
-    <div className="w-72 max-w-sm rounded-lg bg-white p-2 px-1 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 sm:w-96">
-      <div className="flex justify-end">
-        <IoCloseSharp className="cursor-pointer text-red-500 hover:bg-red-200" onClick={onClose} />
+    <div className="w-72 max-w-sm rounded-lg bg-background-primary p-4 text-text-primary shadow-card-hover border border-border-light sm:w-96">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold text-text-primary">Settings</h2>
+        <IoCloseSharp 
+          className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200" 
+          onClick={onClose} 
+        />
       </div>
-      <div className="grid">
-        <div className="text-center text-lg">Settings</div>
-        <div className="border-gray-100 p-4">
-          <div className="rounded p-2 text-center">
-            Time <span className="italic">(minutes)</span>
+      
+      <div className="space-y-6">
+        <div className="border border-border-light rounded-lg p-4">
+          <div className="text-center font-medium mb-4">
+            Time <span className="text-text-secondary italic">(minutes)</span>
           </div>
-          <div className="flex items-center justify-between gap-6 text-center">
+          <div className="flex items-center justify-between gap-4 text-center">
             <ToggleOption
               title="Pomodoro"
               decrement="session-decrement"
@@ -217,10 +221,10 @@ export const TimerSettings = ({ onClose }) => {
             />
           </div>
         </div>
-        <hr className="border-t-3 border-[#5c5c5c]" />
-        <div className="border-gray-100 p-4">
-          <div className="rounded p-2 text-center">Alarm Volume</div>
-          <div className="items-center px-2 pb-2">
+
+        <div className="border border-border-light rounded-lg p-4">
+          <div className="text-center font-medium mb-4">Alarm Volume</div>
+          <div className="px-2">
             <Slider
               defaultValue={audioVolume}
               onChange={value => {
@@ -229,55 +233,77 @@ export const TimerSettings = ({ onClose }) => {
               step={0.1}
               min={0}
               max={1}
+              railStyle={{
+                backgroundColor: "var(--color-border-medium)",
+                height: 6,
+              }}
+              handleStyle={{
+                backgroundColor: "var(--color-accent-orange)",
+                borderColor: "var(--color-accent-orange)",
+                height: 18,
+                width: 18,
+              }}
+              trackStyle={{
+                backgroundColor: "var(--color-accent-orange)",
+                height: 6,
+              }}
             />
           </div>
         </div>
-        <hr className="border-t-3 border-[#5c5c5c]" />
-        <div className="border-gray-100 p-4">
-          <div className="rounded p-2 text-center">Alarm Sound</div>
-          <div className="flex items-center justify-between gap-2 pb-2 text-center">
-            <div className="w-1/4">
-              Retro
+
+        <div className="border border-border-light rounded-lg p-4">
+          <div className="text-center font-medium mb-4">Alarm Sound</div>
+          <div className="flex items-center justify-between gap-2 text-center">
+            <div className="flex-1">
+              <div className="text-sm mb-2">Retro</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-gray-200 p-2 text-center dark:bg-gray-700 dark:text-gray-200",
-                  currentAlarm == arcade && "border border-gray-200"
+                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
+                  currentAlarm == arcade 
+                    ? "border-accent-orange bg-accent-orange text-white" 
+                    : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(arcade)}
               >
                 <BsMusicPlayerFill />
               </div>
             </div>
-            <div className="w-1/4">
-              Bells
+            <div className="flex-1">
+              <div className="text-sm mb-2">Bells</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-gray-200 p-2 text-center dark:bg-gray-700 dark:text-gray-200",
-                  currentAlarm == bells && "border border-gray-200"
+                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
+                  currentAlarm == bells 
+                    ? "border-accent-orange bg-accent-orange text-white" 
+                    : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(bells)}
               >
                 <BsBellFill />
               </div>
             </div>
-            <div className="w-1/4">
-              Flute
+            <div className="flex-1">
+              <div className="text-sm mb-2">Flute</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-gray-200 p-2 text-center dark:bg-gray-700 dark:text-gray-200",
-                  currentAlarm == flute && "border border-gray-200"
+                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
+                  currentAlarm == flute 
+                    ? "border-accent-orange bg-accent-orange text-white" 
+                    : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(flute)}
               >
                 <GiPanFlute />
               </div>
             </div>
-            <div className="w-1/4">
-              Piano
+            <div className="flex-1">
+              <div className="text-sm mb-2">Piano</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-gray-200 p-2 text-center dark:bg-gray-700 dark:text-gray-200",
-                  currentAlarm == piano && "border border-gray-200"
+                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
+                  currentAlarm == piano 
+                    ? "border-accent-orange bg-accent-orange text-white" 
+                    : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(piano)}
               >
@@ -286,10 +312,10 @@ export const TimerSettings = ({ onClose }) => {
             </div>
           </div>
         </div>
-        <hr className="border-t-3 border-[#5c5c5c]" />
-        <div className="border-gray-100 p-4">
-          <div className="rounded p-2 text-center">Grid Size (increasing Step Size)</div>
-          <div className="items-center px-2 pb-2">
+
+        <div className="border border-border-light rounded-lg p-4">
+          <div className="text-center font-medium mb-4">Grid Size (increasing Step Size)</div>
+          <div className="px-2">
             <Slider
               //@ts-ignore
               defaultValue={onDefaultChange}
@@ -299,49 +325,60 @@ export const TimerSettings = ({ onClose }) => {
               step={50}
               min={0}
               max={150}
+              railStyle={{
+                backgroundColor: "var(--color-border-medium)",
+                height: 6,
+              }}
+              handleStyle={{
+                backgroundColor: "var(--color-accent-orange)",
+                borderColor: "var(--color-accent-orange)",
+                height: 18,
+                width: 18,
+              }}
+              trackStyle={{
+                backgroundColor: "var(--color-accent-orange)",
+                height: 6,
+              }}
             />
           </div>
         </div>
-        <hr className="border-t-3 border-[#5c5c5c]" />
-        <div className="border-gray-100 p-4">
-          <div className="rounded pb-2 text-center">Lock Widgets In-place</div>
+
+        <div className="border border-border-light rounded-lg p-4">
+          <div className="text-center font-medium mb-4">Lock Widgets In-place</div>
           <div className="flex justify-center">
             <Button
               className={clsx(
-                "float-right w-[70%] font-normal text-gray-800 hover:text-white dark:text-white ",
-                currentWidgetLockState && " bg-red-500 hover:bg-red-700"
+                "w-[70%]",
+                currentWidgetLockState && "bg-error hover:bg-red-600 border-error"
               )}
-              variant="primary"
+              variant={currentWidgetLockState ? "danger" : "primary"}
               onClick={() => setCurrentWidgetLockState(!currentWidgetLockState)}
             >
               {currentWidgetLockState ? "Unlock" : "Lock"} Widgets
             </Button>
           </div>
         </div>
-        <hr className="border-t-3 border-[#5c5c5c]" />
-        <div className="flex justify-between p-2">
+
+        <div className="flex justify-between gap-3">
           <Button
-            className="font-normal text-gray-800 hover:text-white dark:text-white"
-            variant="cold"
+            variant="tertiary"
             onClick={handleDefaults}
           >
             Default
           </Button>
 
           <Button
-            className="font-normal text-gray-800 hover:text-white dark:text-white"
-            variant="cold"
+            variant="secondary"
             onClick={unHideInfo}
           >
             Unhide Info
           </Button>
 
           <Button
-            className="font-normal text-gray-800 hover:text-white dark:text-white"
-            variant="cold"
+            variant="primary"
             onClick={onSubmit}
           >
-            Okay
+            Save
           </Button>
         </div>
       </div>

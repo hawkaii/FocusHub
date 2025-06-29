@@ -1,0 +1,104 @@
+/* Color Palette Variables */
+:root {
+  /* Primary Colors */
+  --color-primary-dark: #2D3142;
+  --color-secondary-light: #BFC0C0;
+  --color-white: #FFFFFF;
+  --color-accent-orange: #EF8354;
+  --color-supporting-blue: #4F5D75;
+  
+  /* Light Mode Colors */
+  --color-text-primary: #2D3142;
+  --color-text-secondary: #4F5D75;
+  --color-text-muted: #6B7280;
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F8F9FA;
+  --color-background-tertiary: #BFC0C0;
+  --color-border-light: #E5E7EB;
+  --color-border-medium: #BFC0C0;
+  --color-border-dark: #4F5D75;
+  
+  /* Interactive States */
+  --color-hover-primary: #4F5D75;
+  --color-hover-accent: #D16B3A;
+  --color-focus-ring: #EF8354;
+  --color-active: #2D3142;
+  
+  /* Status Colors (maintaining accessibility) */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+}
+
+/* Dark mode color overrides with increased opacity */
+.dark {
+  /* Dark Mode Text Colors - Higher contrast */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #E5E7EB;
+  --color-text-muted: #D1D5DB;
+  
+  /* Dark Mode Background Colors - More opaque */
+  --color-background-primary: #111827;
+  --color-background-secondary: #1F2937;
+  --color-background-tertiary: #374151;
+  
+  /* Dark Mode Border Colors - More visible */
+  --color-border-light: #374151;
+  --color-border-medium: #4B5563;
+  --color-border-dark: #6B7280;
+  
+  /* Dark Mode Interactive States */
+  --color-hover-primary: #6B7280;
+  --color-hover-accent: #F97316;
+  --color-active: #FFFFFF;
+  
+  /* Dark Mode Status Colors (adjusted for dark backgrounds) */
+  --color-success: #34D399;
+  --color-warning: #FBBF24;
+  --color-error: #F87171;
+  --color-info: #60A5FA;
+}
+
+/* Accessibility utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for accessibility */
+.focus-ring {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: #000000;
+    --color-background-primary: #FFFFFF;
+    --color-accent-orange: #CC6600;
+  }
+  
+  .dark {
+    --color-text-primary: #FFFFFF;
+    --color-background-primary: #000000;
+    --color-accent-orange: #FF8C42;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

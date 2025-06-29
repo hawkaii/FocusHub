@@ -56,7 +56,7 @@ export const Timer = () => {
             <div className="flex items-center justify-between">
               <div>Break Mode</div>
               <IoCloseSharp
-                className="cursor-pointer text-red-500 hover:bg-red-200"
+                className="cursor-pointer text-error hover:text-red-600"
                 onClick={() => toast.dismiss(t.id)}
               />
             </div>
@@ -67,7 +67,7 @@ export const Timer = () => {
             style: {
               borderRadius: "10px",
               padding: "16px",
-              background: "#333",
+              background: "#2D3142",
               color: "#fff",
             },
           }
@@ -83,7 +83,7 @@ export const Timer = () => {
             <div className="flex items-center justify-between">
               <div>Work Mode</div>
               <IoCloseSharp
-                className="cursor-pointer text-red-500 hover:bg-red-200"
+                className="cursor-pointer text-error hover:text-red-600"
                 onClick={() => toast.dismiss(t.id)}
               />
             </div>
@@ -94,7 +94,7 @@ export const Timer = () => {
             style: {
               borderRadius: "10px",
               padding: "16px",
-              background: "#333",
+              background: "#2D3142",
               color: "#fff",
             },
           }
@@ -181,27 +181,31 @@ export const Timer = () => {
   return (
     <div
       className={clsx(
-        breakStarted && "bg-slate-200/[.96] shadow-lg",
-        "dwidth sm:w-96` mb-2 max-w-sm rounded-lg border border-gray-200 bg-white/[.96] py-2 px-1 text-gray-800 shadow-lg dark:border-gray-700 dark:bg-gray-800/[.96] dark:text-gray-300"
+        "dwidth sm:w-96 mb-2 max-w-sm rounded-lg border shadow-card transition-all duration-200",
+        breakStarted 
+          ? "bg-blue-50 border-info shadow-card-hover dark:bg-blue-900/30" 
+          : "bg-background-primary border-border-light",
+        "backdrop-blur-sm"
       )}
     >
       <div className="text-center">
-        <div className="rounded p-2 text-center">
-          <div className="flex justify-end">
+        <div className="rounded-t-lg p-3 border-b border-border-light">
+          <div className="flex justify-end mb-2">
             <IoCloseSharp
-              className="cursor-pointer text-red-500 hover:bg-red-200"
+              className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200"
               onClick={() => setIsTimerToggled(false)}
             />
           </div>
           {/* Controls */}
-          <div className="flex">
-            <div className="flex flex-1 flex-col items-center justify-center">
+          <div className="flex gap-2 mb-4">
+            <div className="flex flex-1">
               <Button
                 className={clsx(
-                  "text-gray-800 hover:text-white dark:text-white",
-                  breakLength === shortBreakLength && "border-2 border-blue-900"
+                  "w-full text-sm",
+                  breakLength === shortBreakLength && "ring-2 ring-accent-orange"
                 )}
-                variant="cold"
+                variant="secondary"
+                size="small"
                 onClick={() => selectBreak(shortBreakLength)}
                 disabled={hasStarted}
               >
@@ -209,14 +213,14 @@ export const Timer = () => {
               </Button>
             </div>
 
-            <div className="flex flex-1 flex-col items-center justify-center">
+            <div className="flex flex-1">
               <Button
                 className={clsx(
-                  "text-gray-800 hover:text-white dark:text-white",
-                  breakLength === longBreakLength && "border-2 border-blue-900"
+                  "w-full text-sm",
+                  breakLength === longBreakLength && "ring-2 ring-accent-orange"
                 )}
-                // This should either be cold or coldPrimary
-                variant="cold"
+                variant="secondary"
+                size="small"
                 onClick={() => selectBreak(longBreakLength)}
                 disabled={hasStarted}
               >
@@ -225,26 +229,24 @@ export const Timer = () => {
             </div>
           </div>
           {/* Timer */}
-          <div>
-            <p id="tabular-nums">{sessionType}</p>
-            <div className="text-7xl font-bold tabular-nums sm:text-9xl">
+          <div className="mb-4">
+            <p className="text-text-secondary font-medium mb-2">{sessionType}</p>
+            <div className="text-6xl font-bold tabular-nums text-text-primary sm:text-8xl">
               {/*// @ts-ignore */}
               {formatDisplayTime(timerMinutes)}:{/*// @ts-ignore */}
               {formatDisplayTime(timerSeconds)}
             </div>
           </div>
 
-          <div className="timer-control tabular-nums">
+          <div className="timer-control tabular-nums flex gap-3 justify-center">
             <Button
-              className="font-normal tabular-nums text-gray-800 hover:text-white dark:text-white"
+              variant={hasStarted ? "secondary" : "primary"}
               onClick={() => toggleCountDown()}
-              variant="cold"
             >
               <p className="tabular-nums">{hasStarted ? "Pause" : "Start"}</p>
             </Button>
             <Button
-              className="ml-4 font-normal tabular-nums text-gray-800 hover:text-white dark:text-white"
-              variant="cold"
+              variant="tertiary"
               onClick={handleResetTimer}
             >
               <p className="tabular-nums">Reset</p>
