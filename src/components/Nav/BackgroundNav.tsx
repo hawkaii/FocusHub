@@ -32,7 +32,7 @@ export const BackgroundNav = ({
     <div className="flex justify-end" ref={menuRef}>
       <div className="w-70 text-left">
         <div
-          className=" absolute right-2 z-[9999] mt-2 ml-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900"
+          className="absolute right-2 z-[9999] mt-2 ml-2 w-56 origin-top-right divide-y divide-border-light rounded-lg bg-background-primary shadow-card-hover ring-1 ring-border-light border border-border-light focus:outline-none"
           role="menu"
           ref={menuRef}
         >
@@ -41,7 +41,7 @@ export const BackgroundNav = ({
             setBackgroundId={setBackgroundId}
             background={Background.CITY}
             title="City"
-            className="rounded-t-md"
+            className="rounded-t-lg"
           />
           <BackgroundDropdownItem
             isPicked={backgroundId == Background.LOFIGIRL}

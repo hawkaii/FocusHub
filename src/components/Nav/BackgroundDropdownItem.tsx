@@ -19,15 +19,15 @@ export const BackgroundDropdownItem = ({
   return (
     <div
       className={clsx(
-        "cursor-pointer bg-gray-300 py-1 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900",
-        isPicked && "bg-gray-100 dark:bg-gray-900"
+        "cursor-pointer bg-background-primary py-2 hover:bg-background-secondary transition-colors duration-200",
+        isPicked && "bg-background-secondary border-l-4 border-accent-orange"
       )}
       onClick={() => setBackgroundId(background)}
     >
       {title === "Custom Color" ? (
         <CustomColorPicker />
       ) : (
-        <div className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200">{title}</div>
+        <div className="block px-4 py-2 text-sm text-text-primary">{title}</div>
       )}
     </div>
   );
@@ -40,18 +40,19 @@ const CustomColorPicker = () => {
 
   return (
     <div>
-      <div className="block py-2 pl-4 text-sm text-gray-700 dark:text-gray-200">Color</div>
+      <div className="block py-2 pl-4 text-sm text-text-primary">Color</div>
       <div className="ml-4 flex pb-2">
         {colors.map(col => (
           <div
             key={col}
-            className="mr-2 pl-4"
+            className="mr-2 pl-4 cursor-pointer hover:scale-110 transition-transform duration-200"
             onClick={() => setBackgroundColor(col)}
             style={{
               background: col,
               width: 16,
               height: 16,
-              border: isUsingCustomBackground && backgroundColor === col ? "1px solid #fff" : "none",
+              border: isUsingCustomBackground && backgroundColor === col ? "2px solid var(--color-accent-orange)" : "1px solid var(--color-border-medium)",
+              borderRadius: "4px",
             }}
           />
         ))}

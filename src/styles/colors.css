@@ -7,7 +7,7 @@
   --color-accent-orange: #EF8354;
   --color-supporting-blue: #4F5D75;
   
-  /* Semantic Color Variations */
+  /* Light Mode Colors */
   --color-text-primary: #2D3142;
   --color-text-secondary: #4F5D75;
   --color-text-muted: #6B7280;
@@ -29,23 +29,35 @@
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
-  
-  /* Dark Mode Variants */
-  --color-dark-bg-primary: #1F2937;
-  --color-dark-bg-secondary: #374151;
-  --color-dark-text-primary: #F9FAFB;
-  --color-dark-text-secondary: #D1D5DB;
-  --color-dark-border: #4B5563;
 }
 
 /* Dark mode color overrides */
 .dark {
-  --color-text-primary: var(--color-dark-text-primary);
-  --color-text-secondary: var(--color-dark-text-secondary);
-  --color-background-primary: var(--color-dark-bg-primary);
-  --color-background-secondary: var(--color-dark-bg-secondary);
-  --color-border-light: var(--color-dark-border);
-  --color-border-medium: var(--color-dark-border);
+  /* Dark Mode Text Colors */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-text-muted: #9CA3AF;
+  
+  /* Dark Mode Background Colors */
+  --color-background-primary: #1F2937;
+  --color-background-secondary: #374151;
+  --color-background-tertiary: #4B5563;
+  
+  /* Dark Mode Border Colors */
+  --color-border-light: #4B5563;
+  --color-border-medium: #6B7280;
+  --color-border-dark: #9CA3AF;
+  
+  /* Dark Mode Interactive States */
+  --color-hover-primary: #6B7280;
+  --color-hover-accent: #F97316;
+  --color-active: #F9FAFB;
+  
+  /* Dark Mode Status Colors (adjusted for dark backgrounds) */
+  --color-success: #34D399;
+  --color-warning: #FBBF24;
+  --color-error: #F87171;
+  --color-info: #60A5FA;
 }
 
 /* Accessibility utilities */
@@ -73,5 +85,20 @@
     --color-text-primary: #000000;
     --color-background-primary: #FFFFFF;
     --color-accent-orange: #CC6600;
+  }
+  
+  .dark {
+    --color-text-primary: #FFFFFF;
+    --color-background-primary: #000000;
+    --color-accent-orange: #FF8C42;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
