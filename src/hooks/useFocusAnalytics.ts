@@ -24,7 +24,7 @@ export function useFocusAnalytics() {
   const [loading, setLoading] = useState(false)
   const [analyticsData, setAnalyticsData] = useState<IAnalyticsData | null>(null)
 
-  // Fetch sessions from Firestore
+  // Fetch sessions from Firebase
   const fetchSessions = async (filters?: IAnalyticsFilters) => {
     if (!user) return
 

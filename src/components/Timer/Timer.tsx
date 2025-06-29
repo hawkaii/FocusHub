@@ -12,6 +12,8 @@ import {
   useAudioVolume,
   useAlarmOption,
 } from "@Store";
+import { useFocusAnalytics } from "@App/hooks/useFocusAnalytics";
+import { useTask } from "@Store";
 import toast from "react-hot-toast";
 import { secondsToTime, formatDisplayTime } from "@Utils/utils";
 import { successToast } from "@Utils/toast";
@@ -32,6 +34,8 @@ export const Timer = () => {
   const [sessionType, setSessionType] = useState("Session");
   const { setIsTimerToggled } = useToggleTimer();
   const { alarm } = useAlarmOption();
+  const { startSession, endSession, currentSession } = useFocusAnalytics();
+  const { tasks } = useTask();
 
   const audioRef = useRef();
   const { audioVolume } = useAudioVolume();
@@ -47,10 +51,20 @@ export const Timer = () => {
       audioRef.current.volume = audioVolume;
       // @ts-ignore
       audioRef.current.play();
+      
+      // End current session and start new one
+      if (currentSession) {
+        endSession(true); // Mark as completed
+      }
+
       if (sessionType === "Session") {
         setSessionType("Break");
         setTimer(breakLength);
         setBreakStarted(true);
+        
+        // Start break session
+        startSession('break');
+        
         toast(
           t => (
             <div className="flex items-center justify-between">
@@ -77,6 +91,11 @@ export const Timer = () => {
         setTimer(pomodoroLength);
         setBreakStarted(false);
         setTimerQueue(pomodoroLength);
+        
+        // Start focus session with current task info
+        const activeTask = tasks.find(task => task.inProgress);
+        startSession('focus', activeTask?.id, activeTask?.description || 'General');
+        
         toast.dismiss();
         toast(
           t => (
@@ -101,7 +120,7 @@ export const Timer = () => {
         );
       }
     }
-  }, [timer, sessionType, audioVolume]);
+  }, [timer, sessionType, audioVolume, currentSession, endSession, startSession, tasks]);
 
   useEffect(() => {
     setTimer(pomodoroLength);
@@ -130,13 +149,26 @@ export const Timer = () => {
 
   function toggleCountDown() {
     if (hasStarted) {
-      // started mode
+      // started mode - pause
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
       }
       setTimerIntervalId(null);
+      
+      // End current session as incomplete
+      if (currentSession) {
+        endSession(false);
+      }
     } else {
-      // stopped mode
+      // stopped mode - start
+      // Start new session
+      if (sessionType === "Session") {
+        const activeTask = tasks.find(task => task.inProgress);
+        startSession('focus', activeTask?.id, activeTask?.description || 'General');
+      } else {
+        startSession('break');
+      }
+      
       // create accurate date timer with date
       const newIntervalId = setInterval(() => {
         setTimer(prevTime => {
@@ -160,6 +192,12 @@ export const Timer = () => {
       clearInterval(timerIntervalId);
     }
     setTimerIntervalId(null);
+    
+    // End current session as incomplete
+    if (currentSession) {
+      endSession(false);
+    }
+    
     setPomodoroLength(pomodoroLength);
     setShortBreak(shortBreakLength);
     setLongBreak(longBreakLength);
