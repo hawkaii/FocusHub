@@ -16,9 +16,9 @@ import { useRef } from "react";
 export enum Background {
   CITY,
   /* FADE,
-  GRADIENT,
+  GRADIENT, */
   JAPAN,
-  COTTAGE, */
+  /* COTTAGE, */
   LOFIGIRL,
   /* TRAIN,
   DVD,

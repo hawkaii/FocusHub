@@ -44,6 +44,12 @@ export const BackgroundNav = ({
             className="rounded-t-lg"
           />
           <BackgroundDropdownItem
+            isPicked={backgroundId == Background.JAPAN}
+            setBackgroundId={setBackgroundId}
+            background={Background.JAPAN}
+            title="Japan"
+          />
+          <BackgroundDropdownItem
             isPicked={backgroundId == Background.LOFIGIRL}
             setBackgroundId={setBackgroundId}
             background={Background.LOFIGIRL}
