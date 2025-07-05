@@ -85,8 +85,9 @@ export const HeatMapVisualization = ({ analytics }: HeatMapVisualizationProps) =
       </div>
 
       {/* Heat Map */}
-      <div className="bg-background-primary border border-border-light rounded-xl p-6 shadow-card overflow-x-auto">
-        <div className="min-w-[800px]">
+      <div className="bg-background-primary border border-border-light rounded-xl p-6 shadow-card">
+        <div className="overflow-x-auto">
+          <div className="min-w-[800px]">
           {/* Hour labels */}
           <div className="flex mb-2">
             <div className="w-12"></div>
@@ -123,6 +124,7 @@ export const HeatMapVisualization = ({ analytics }: HeatMapVisualizationProps) =
               })}
             </div>
           ))}
+          </div>
         </div>
         
         {/* Legend */}

@@ -145,7 +145,23 @@ export const TimeMetrics = ({ analytics }: TimeMetricsProps) => {
       <div className="bg-background-primary border border-border-light rounded-xl p-6 shadow-card">
         <div className="flex items-center justify-between mb-6">
           <h4 className="text-lg font-semibold text-text-primary">Weekly Usage Trends</h4>
-          <button className="flex items-center space-x-2 text-accent-orange hover:text-hover-accent transition-colors duration-200">
+          <button 
+            onClick={() => {
+              // Export weekly trends data
+              const csvContent = "data:text/csv;charset=utf-8," + 
+                "Day,Sessions,Avg Duration (min),Total Time (min)\n" +
+                weeklyTrends.map(day => `${day.day},${day.sessions},${day.avgDuration},${day.totalTime}`).join("\n");
+              
+              const encodedUri = encodeURI(csvContent);
+              const link = document.createElement("a");
+              link.setAttribute("href", encodedUri);
+              link.setAttribute("download", "weekly-trends.csv");
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
+            className="flex items-center space-x-2 text-accent-orange hover:text-hover-accent transition-colors duration-200"
+          >
             <FaDownload className="h-4 w-4" />
             <span className="text-sm">Export Data</span>
           </button>
