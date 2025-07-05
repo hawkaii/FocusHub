@@ -37,10 +37,10 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="w-full max-w-7xl h-[90vh] mx-4 bg-background-primary rounded-xl shadow-2xl border border-border-light overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
+      <div className="w-full max-w-7xl h-[90vh] bg-background-primary rounded-xl shadow-2xl border border-border-light flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border-light bg-gradient-to-r from-accent-orange to-hover-accent">
+        <div className="flex items-center justify-between p-6 border-b border-border-light bg-gradient-to-r from-accent-orange to-hover-accent flex-shrink-0">
           <div className="flex items-center space-x-3">
             <FaChartLine className="h-6 w-6 text-white" />
             <h2 className="text-2xl font-bold text-white">Analytics Dashboard</h2>
@@ -83,7 +83,7 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-border-light bg-background-secondary">
+        <div className="flex border-b border-border-light bg-background-secondary flex-shrink-0">
           <button
             onClick={() => setActiveTab('overview')}
             className={`flex items-center space-x-2 px-6 py-4 font-medium transition-all duration-200 ${
@@ -122,7 +122,8 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-orange"></div>
@@ -134,6 +135,7 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
               {activeTab === 'metrics' && <TimeMetrics analytics={analytics} />}
             </>
           )}
+          </div>
         </div>
       </div>
     </div>
