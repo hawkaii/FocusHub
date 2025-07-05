@@ -50,8 +50,6 @@ import {
   IFocusSessionState,
   IFocusSession,
 } from "./interfaces";
-import { InfoSection } from "./pages/InfoSection";
-import { uuid } from "uuidv4";
 import { v4 } from "uuid";
 
 /**
