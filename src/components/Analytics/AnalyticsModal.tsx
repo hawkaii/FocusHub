@@ -37,7 +37,7 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
       <div className="w-full max-w-7xl h-[90vh] bg-background-primary rounded-xl shadow-2xl border border-border-light flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border-light bg-gradient-to-r from-accent-orange to-hover-accent flex-shrink-0">
