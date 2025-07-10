@@ -2,6 +2,7 @@
 
 ## Getting Started
 
+Love u bro
 If you want to work on feature development or bug fixes, or just want to test
 out the project, please follow the steps below:
 
