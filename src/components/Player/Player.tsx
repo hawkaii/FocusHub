@@ -68,16 +68,16 @@ export const Player = () => {
 
   return (
     <>
-      <div className="mb-2 w-72 rounded-lg border border-border-light bg-background-primary py-4 px-3 text-text-primary shadow-card backdrop-blur-sm sm:w-96">
-        <div className="flex items-center justify-between space-x-6 mb-4 pb-3 border-b border-border-light">
+      <div className="mb-2 w-72 rounded-lg border border-border-light bg-background-primary px-3 py-4 text-text-primary shadow-card backdrop-blur-sm sm:w-96">
+        <div className="mb-4 flex items-center justify-between space-x-6 border-b border-border-light pb-3">
           <div className="font-medium text-text-primary">{song?.artist}</div>
-          <div className="flex space-x-2 items-center">
+          <div className="flex items-center space-x-2">
             <IconContext.Provider value={{ size: "1.1rem" }}>
               <FaYoutube className="text-error" />
             </IconContext.Provider>
             <IconContext.Provider value={{ size: "1.1rem" }}>
               <IoCloseSharp
-                className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200"
+                className="cursor-pointer text-error transition-colors duration-200 hover:text-red-600"
                 onClick={() => setIsMusicToggled(false)}
               />
             </IconContext.Provider>
@@ -94,14 +94,14 @@ export const Player = () => {
           <div className="flex items-center space-x-3">
             <IconContext.Provider value={{ size: "1.5rem" }}>
               {playAudio ? (
-                <FaPlayCircle 
-                  onClick={triggerAudio} 
-                  className="cursor-pointer text-accent-orange hover:text-hover-accent transition-colors duration-200" 
+                <FaPlayCircle
+                  onClick={triggerAudio}
+                  className="cursor-pointer text-accent-orange transition-colors duration-200 hover:text-hover-accent"
                 />
               ) : (
-                <FaPauseCircle 
-                  onClick={triggerAudio} 
-                  className="cursor-pointer text-accent-orange hover:text-hover-accent transition-colors duration-200" 
+                <FaPauseCircle
+                  onClick={triggerAudio}
+                  className="cursor-pointer text-accent-orange transition-colors duration-200 hover:text-hover-accent"
                 />
               )}
             </IconContext.Provider>

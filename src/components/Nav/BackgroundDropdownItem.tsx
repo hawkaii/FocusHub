@@ -19,8 +19,8 @@ export const BackgroundDropdownItem = ({
   return (
     <div
       className={clsx(
-        "cursor-pointer bg-background-primary py-2 hover:bg-background-secondary transition-colors duration-200",
-        isPicked && "bg-background-secondary border-l-4 border-accent-orange"
+        "cursor-pointer bg-background-primary py-2 transition-colors duration-200 hover:bg-background-secondary",
+        isPicked && "border-l-4 border-accent-orange bg-background-secondary"
       )}
       onClick={() => setBackgroundId(background)}
     >
@@ -45,13 +45,16 @@ const CustomColorPicker = () => {
         {colors.map(col => (
           <div
             key={col}
-            className="mr-2 pl-4 cursor-pointer hover:scale-110 transition-transform duration-200"
+            className="mr-2 cursor-pointer pl-4 transition-transform duration-200 hover:scale-110"
             onClick={() => setBackgroundColor(col)}
             style={{
               background: col,
               width: 16,
               height: 16,
-              border: isUsingCustomBackground && backgroundColor === col ? "2px solid var(--color-accent-orange)" : "1px solid var(--color-border-medium)",
+              border:
+                isUsingCustomBackground && backgroundColor === col
+                  ? "2px solid var(--color-accent-orange)"
+                  : "1px solid var(--color-border-medium)",
               borderRadius: "4px",
             }}
           />

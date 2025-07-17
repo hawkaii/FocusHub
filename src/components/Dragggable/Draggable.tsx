@@ -38,7 +38,7 @@ export const DWrapper = ({
     } else {
       setPosition(data.x, data.y);
     }
-  }
+  };
 
   const getFocus = () => {
     setZIndex(++GLOBAL_Z);
@@ -82,20 +82,13 @@ export const DWrapper = ({
         handle={handle}
       >
         {isSticky ? (
-          <div 
-            style={{ zIndex: z, position: "absolute" }} 
-            onMouseDown={() => getFocus()
-          }>
+          <div style={{ zIndex: z, position: "absolute" }} onMouseDown={() => getFocus()}>
             <div ref={ref} className={clsx("inline-block", toggleHook ? "visible" : "pointer-events-none hidden")}>
               {children}
             </div>
           </div>
         ) : (
-          <div 
-            style={{ zIndex: z, position: "absolute" }} 
-            className="dcard box dwidth" 
-            onMouseDown={() => getFocus()
-          }>
+          <div style={{ zIndex: z, position: "absolute" }} className="dcard box dwidth" onMouseDown={() => getFocus()}>
             <div ref={ref} className={clsx("inline-block", toggleHook ? "visible" : "pointer-events-none hidden")}>
               {children}
             </div>

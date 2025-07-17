@@ -17,12 +17,12 @@ const KanbanCard = ({ provided, taskIndex, task, deleteTask, updateTaskName }) =
   const enableTaskEdit = () => {
     setCardInputValue(task.name);
     setCardEditMode(true);
-  }
+  };
 
   const onFormSubmit = (event: FormEvent) => {
     event.preventDefault();
     setTaskName();
-  }
+  };
 
   const setTaskName = () => {
     setCardEditMode(false);
@@ -33,17 +33,17 @@ const KanbanCard = ({ provided, taskIndex, task, deleteTask, updateTaskName }) =
     }
 
     updateTaskName(taskIndex, cardInputValue);
-  }
+  };
 
   const delTask = (taskIndex: number) => {
     if (cardEditMode) {
       setCardEditMode(false);
       setCardInputValue(task.name);
-      return
-    };
+      return;
+    }
 
     deleteTask(taskIndex);
-  }
+  };
 
   return (
     <Draggable key={task.id} draggableId={task.id} index={taskIndex} isDragDisabled={cardEditMode}>
@@ -59,7 +59,7 @@ const KanbanCard = ({ provided, taskIndex, task, deleteTask, updateTaskName }) =
           className="flex flex-grow-0 flex-row items-center justify-between rounded-md bg-gray-300 py-2 pl-2 pr-0.5 dark:bg-gray-600"
         >
           {!cardEditMode ? (
-            <span className="break-words whitespace-normal overflow-hidden align-middle">{task.name}</span>
+            <span className="overflow-hidden whitespace-normal break-words align-middle">{task.name}</span>
           ) : (
             <form onSubmit={e => onFormSubmit(e)}>
               <input
@@ -76,30 +76,30 @@ const KanbanCard = ({ provided, taskIndex, task, deleteTask, updateTaskName }) =
             {!cardEditMode ? (
               <RxPencil2
                 onClick={() => enableTaskEdit()}
-                className="h-6 w-6 grow-0 cursor-pointer rounded-md py-1 px-0 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-500"
+                className="h-6 w-6 grow-0 cursor-pointer rounded-md px-0 py-1 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-500"
               />
             ) : (
               <RxCheck
                 onClick={() => setTaskName()}
-                className="h-6 w-6 grow-0 cursor-pointer rounded-md py-1 px-0 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-500"
+                className="h-6 w-6 grow-0 cursor-pointer rounded-md px-0 py-1 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-500"
               />
             )}
             <IoCloseSharp
               onClick={() => delTask(taskIndex)}
-              className="h-6 w-6 grow-0 cursor-pointer rounded-md py-1 px-0 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-500"
+              className="h-6 w-6 grow-0 cursor-pointer rounded-md px-0 py-1 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-500"
             />
           </div>
         </div>
       )}
     </Draggable>
   );
-}
+};
 
 const KanbanColumn = ({ column, addTask, deleteTask, updateTaskName }) => {
   const [taskAddMode, setTaskAddMode] = useState(false);
   const [taskInputValue, setTaskInputValue] = useState("");
 
-  const addTaskButtonRef = useCallback((element) => {
+  const addTaskButtonRef = useCallback(element => {
     element?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
   }, []);
 
@@ -114,7 +114,7 @@ const KanbanColumn = ({ column, addTask, deleteTask, updateTaskName }) => {
 
     addTask(taskInputValue);
     setTaskInputValue("");
-  }
+  };
 
   return (
     <Droppable key={column.id} droppableId={column.id}>
@@ -124,7 +124,7 @@ const KanbanColumn = ({ column, addTask, deleteTask, updateTaskName }) => {
             <div className="mb-4 flex h-full w-full flex-grow-0 flex-col gap-2 overflow-auto">
               <h2 className="font-bold">{column.title}</h2>
               <div className="flex h-full flex-col justify-between gap-2 overflow-y-auto">
-                <div className="flex justify-between min-h-[160px] h-full flex-col gap-2 pr-1">
+                <div className="flex h-full min-h-[160px] flex-col justify-between gap-2 pr-1">
                   <div className="flex flex-col gap-2">
                     {column.tasks.map((task, index) => (
                       <KanbanCard
@@ -201,8 +201,7 @@ export const Kanban = ({}) => {
   const deleteTask = (columnIndex: number, taskIndex: number) => {
     let columns = board.columns;
 
-    if (!confirm(`Are you sure you want to delete the task "${columns[columnIndex].tasks[taskIndex].name}"?`))
-      return;
+    if (!confirm(`Are you sure you want to delete the task "${columns[columnIndex].tasks[taskIndex].name}"?`)) return;
 
     columns[columnIndex].tasks.splice(taskIndex, 1);
     setColumns(columns);
@@ -212,7 +211,7 @@ export const Kanban = ({}) => {
     let columns = board.columns;
     columns[columnIndex].tasks[taskIndex].name = name;
     setColumns(columns);
-  }
+  };
 
   const onDragEnd = result => {
     const { destination, source, draggableId } = result;
@@ -233,8 +232,8 @@ export const Kanban = ({}) => {
   };
 
   return (
-    <div className="w-full resize justify-between overflow-auto my-2 rounded-lg border border-gray-200 bg-white/[.96] py-4 px-3 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800/[.96] dark:text-gray-300 sm:w-[40rem]">
-      <div className="flex w-full h-full flex-col">
+    <div className="my-2 w-full resize justify-between overflow-auto rounded-lg border border-gray-200 bg-white/[.96] px-3 py-4 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800/[.96] dark:text-gray-300 sm:w-[40rem]">
+      <div className="flex h-full w-full flex-col">
         <div className="mb-2 flex flex-row items-center justify-between">
           <h1 className="font-bold text-gray-800 dark:text-white">Kanban board</h1>
           <IconContext.Provider value={{ size: "1.1rem" }}>
@@ -246,7 +245,7 @@ export const Kanban = ({}) => {
         </div>
         <div className="cancelDrag flex h-full w-full flex-row items-center gap-2 overflow-hidden">
           <DragDropContext onDragEnd={onDragEnd}>
-            <div className={`flex w-full h-full gap-2 min-w-[250px] ${isDesktop ? "flex-row" : "flex-col"}`}>
+            <div className={`flex h-full w-full min-w-[250px] gap-2 ${isDesktop ? "flex-row" : "flex-col"}`}>
               {board.columns.map((column, columnIndex) => (
                 <KanbanColumn
                   key={column.id}

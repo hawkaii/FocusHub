@@ -1,81 +1,87 @@
-import { useEffect, useState } from 'react'
-import { IoCloseSharp, IoDownloadOutline, IoCalendarOutline } from 'react-icons/io5'
-import { FaUsers, FaClock, FaChartLine, FaGlobe } from 'react-icons/fa'
-import { UsageStats } from './UsageStats'
-import { HeatMapVisualization } from './HeatMapVisualization'
-import { TimeMetrics } from './TimeMetrics'
-import { useAnalytics } from '@App/hooks/useAnalytics'
-import { Button } from '@Components/Common/Button'
+import { useEffect, useState } from "react";
+import { IoCloseSharp, IoDownloadOutline, IoCalendarOutline } from "react-icons/io5";
+import { FaClock, FaChartLine, FaGlobe, FaTrophy } from "react-icons/fa";
+import { Leaderboard } from "./Leaderboard";
+import { HeatMapVisualization } from "./HeatMapVisualization";
+import { TimeMetrics } from "./TimeMetrics";
+import { useAnalytics } from "@Utils/hooks/useAnalytics";
+import { Button } from "@Components/Common/Button";
 
 interface AnalyticsModalProps {
-  isVisible: boolean
-  onClose: () => void
+  isVisible: boolean;
+  onClose: () => void;
 }
 
 export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'heatmap' | 'metrics'>('overview')
-  const [dateRange, setDateRange] = useState<'7d' | '30d' | '90d'>('30d')
-  const { analytics, loading, exportData } = useAnalytics(dateRange)
+  const [activeTab, setActiveTab] = useState<"leaderboard" | "heatmap" | "metrics">("leaderboard");
+  const [dateRange, setDateRange] = useState<"7d" | "30d" | "90d">("30d");
+  const { analytics, loading, exportData } = useAnalytics(dateRange);
 
   const keydownHandler = ({ key }: KeyboardEvent) => {
-    if (key === 'Escape') {
-      onClose()
+    if (key === "Escape") {
+      onClose();
     }
-  }
+  };
 
   useEffect(() => {
     if (isVisible) {
-      document.addEventListener('keydown', keydownHandler)
-      return () => document.removeEventListener('keydown', keydownHandler)
+      document.addEventListener("keydown", keydownHandler);
+      return () => document.removeEventListener("keydown", keydownHandler);
     }
-  }, [isVisible])
+  }, [isVisible]);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   const handleExport = () => {
-    exportData()
-  }
+    exportData();
+  };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
-      <div className="w-full max-w-7xl h-[90vh] bg-background-primary rounded-xl shadow-2xl border border-border-light flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 p-4 backdrop-blur-sm">
+      <div className="flex h-[90vh] w-full max-w-7xl flex-col overflow-hidden rounded-xl border border-border-light bg-background-primary shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border-light bg-gradient-to-r from-accent-orange to-hover-accent flex-shrink-0">
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-border-light bg-gradient-to-r from-accent-orange to-hover-accent p-6">
           <div className="flex items-center space-x-3">
             <FaChartLine className="h-6 w-6 text-white" />
             <h2 className="text-2xl font-bold text-white">Analytics Dashboard</h2>
           </div>
-          
+
           <div className="flex items-center space-x-3">
             {/* Date Range Selector */}
-            <div className="flex items-center space-x-2 bg-white bg-opacity-20 rounded-lg p-2">
+            <div className="flex items-center space-x-2 rounded-lg bg-white bg-opacity-20 p-2">
               <IoCalendarOutline className="h-4 w-4 text-white" />
               <select
                 value={dateRange}
-                onChange={(e) => setDateRange(e.target.value as '7d' | '30d' | '90d')}
-                className="bg-transparent text-white text-sm font-medium focus:outline-none"
+                onChange={e => setDateRange(e.target.value as "7d" | "30d" | "90d")}
+                className="bg-transparent text-sm font-medium text-white focus:outline-none"
               >
-                <option value="7d" className="text-gray-800">Last 7 days</option>
-                <option value="30d" className="text-gray-800">Last 30 days</option>
-                <option value="90d" className="text-gray-800">Last 90 days</option>
+                <option value="7d" className="text-gray-800">
+                  Last 7 days
+                </option>
+                <option value="30d" className="text-gray-800">
+                  Last 30 days
+                </option>
+                <option value="90d" className="text-gray-800">
+                  Last 90 days
+                </option>
               </select>
             </div>
-            
+
             {/* Export Button */}
             <Button
               onClick={handleExport}
               variant="secondary"
               size="small"
-              className="bg-white bg-opacity-20 text-white border-white border-opacity-30 hover:bg-opacity-30"
+              className="border-white border-opacity-30 bg-white bg-opacity-20 text-white hover:bg-opacity-30"
             >
-              <IoDownloadOutline className="h-4 w-4 mr-2" />
+              <IoDownloadOutline className="mr-2 h-4 w-4" />
               Export
             </Button>
-            
+
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="p-2 rounded-lg bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-200"
+              className="rounded-lg bg-white bg-opacity-20 p-2 transition-all duration-200 hover:bg-opacity-30"
             >
               <IoCloseSharp className="h-5 w-5 text-white" />
             </button>
@@ -83,37 +89,37 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-border-light bg-background-secondary flex-shrink-0">
+        <div className="flex flex-shrink-0 border-b border-border-light bg-background-secondary">
           <button
-            onClick={() => setActiveTab('overview')}
+            onClick={() => setActiveTab("leaderboard")}
             className={`flex items-center space-x-2 px-6 py-4 font-medium transition-all duration-200 ${
-              activeTab === 'overview'
-                ? 'text-accent-orange border-b-2 border-accent-orange bg-background-primary'
-                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary'
+              activeTab === "leaderboard"
+                ? "border-b-2 border-accent-orange bg-background-primary text-accent-orange"
+                : "text-text-secondary hover:bg-background-primary hover:text-text-primary"
             }`}
           >
-            <FaUsers className="h-4 w-4" />
-            <span>Usage Overview</span>
+            <FaTrophy className="h-4 w-4" />
+            <span>Leaderboard</span>
           </button>
-          
+
           <button
-            onClick={() => setActiveTab('heatmap')}
+            onClick={() => setActiveTab("heatmap")}
             className={`flex items-center space-x-2 px-6 py-4 font-medium transition-all duration-200 ${
-              activeTab === 'heatmap'
-                ? 'text-accent-orange border-b-2 border-accent-orange bg-background-primary'
-                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary'
+              activeTab === "heatmap"
+                ? "border-b-2 border-accent-orange bg-background-primary text-accent-orange"
+                : "text-text-secondary hover:bg-background-primary hover:text-text-primary"
             }`}
           >
             <FaGlobe className="h-4 w-4" />
             <span>Activity Heat Map</span>
           </button>
-          
+
           <button
-            onClick={() => setActiveTab('metrics')}
+            onClick={() => setActiveTab("metrics")}
             className={`flex items-center space-x-2 px-6 py-4 font-medium transition-all duration-200 ${
-              activeTab === 'metrics'
-                ? 'text-accent-orange border-b-2 border-accent-orange bg-background-primary'
-                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary'
+              activeTab === "metrics"
+                ? "border-b-2 border-accent-orange bg-background-primary text-accent-orange"
+                : "text-text-secondary hover:bg-background-primary hover:text-text-primary"
             }`}
           >
             <FaClock className="h-4 w-4" />
@@ -124,20 +130,20 @@ export const AnalyticsModal = ({ isVisible, onClose }: AnalyticsModalProps) => {
         {/* Content */}
         <div className="flex-1 overflow-y-auto">
           <div className="p-6">
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-orange"></div>
-            </div>
-          ) : (
-            <>
-              {activeTab === 'overview' && <UsageStats analytics={analytics} />}
-              {activeTab === 'heatmap' && <HeatMapVisualization analytics={analytics} />}
-              {activeTab === 'metrics' && <TimeMetrics analytics={analytics} />}
-            </>
-          )}
+            {loading ? (
+              <div className="flex h-64 items-center justify-center">
+                <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-accent-orange"></div>
+              </div>
+            ) : (
+              <>
+                {activeTab === "leaderboard" && <Leaderboard analytics={analytics} />}
+                {activeTab === "heatmap" && <HeatMapVisualization analytics={analytics} />}
+                {activeTab === "metrics" && <TimeMetrics analytics={analytics} />}
+              </>
+            )}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

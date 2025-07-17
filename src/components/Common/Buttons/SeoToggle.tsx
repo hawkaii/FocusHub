@@ -10,12 +10,12 @@ export const SeoToggle = ({ onClick }: { onClick }) => {
   };
 
   return (
-    <div className="pt-5 pb-5">
+    <div className="pb-5 pt-5">
       <button
         onClick={handleClick}
         type="button"
         className={
-          "seoToggle ml-2 mb-2 flex items-center rounded-md bg-violet-700 px-4 py-2 font-medium text-white shadow-sm focus:outline-none dark:bg-violet-900/[0.6]  dark:text-violet-200"
+          "seoToggle mb-2 ml-2 flex items-center rounded-md bg-violet-700 px-4 py-2 font-medium text-white shadow-sm focus:outline-none dark:bg-violet-900/[0.6]  dark:text-violet-200"
         }
       >
         Hide Content

@@ -322,5 +322,60 @@ export interface ISeoContent {
 }
 
 export interface ISeoToggle {
-    onButtonClick: () => void;
+  onButtonClick: () => void;
+}
+
+export interface ITimeSession {
+  id: string;
+  startTime: Date;
+  endTime: Date | null;
+  sessionType: "pomodoro" | "shortBreak" | "longBreak";
+  plannedDuration: number;
+  actualDuration: number | null;
+  currentElapsed: number; // Current elapsed time in seconds (for active sessions)
+  taskId: string | null;
+  completed: boolean;
+}
+
+export interface ITimeMetrics {
+  totalFocusTime: number;
+  totalBreakTime: number;
+  sessionsCompleted: number;
+  avgSessionLength: number;
+  productivity: number;
+  dailyStats: { [date: string]: IDailyStats };
+  weeklyTrends: IWeeklyTrend[];
+}
+
+export interface IDailyStats {
+  date: string;
+  focusTime: number;
+  breakTime: number;
+  sessionsCompleted: number;
+  productivity: number;
+}
+
+export interface IWeeklyTrend {
+  week: string;
+  avgFocusTime: number;
+  avgSessions: number;
+  productivity: number;
+}
+
+export interface ITimeTrackingState {
+  sessions: ITimeSession[];
+  currentSession: ITimeSession | null;
+  metrics: ITimeMetrics;
+  startSession: (
+    sessionType: "pomodoro" | "shortBreak" | "longBreak",
+    plannedDuration: number,
+    taskId?: string
+  ) => void;
+  endSession: (completed: boolean) => void;
+  updateCurrentSession: () => void;
+  pauseSession: () => void;
+  resumeSession: () => void;
+  getMetrics: () => ITimeMetrics;
+  getDailyStats: (date: string) => IDailyStats;
+  clearHistory: () => void;
 }

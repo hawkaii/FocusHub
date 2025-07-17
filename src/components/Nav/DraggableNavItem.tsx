@@ -16,7 +16,7 @@ export const DraggableNavItem = ({ active, item }: { active: boolean; item: any 
       >
         {item.content}
         {item.tooltipTitle == "Sticky Note" && stickyNotes.length > 0 && (
-          <span className="absolute right-[8px] bottom-[8px] h-[25px] w-[25px] rounded-full bg-[#000] text-center text-white">
+          <span className="absolute bottom-[8px] right-[8px] h-[25px] w-[25px] rounded-full bg-[#000] text-center text-white">
             {stickyNotes.length}
           </span>
         )}

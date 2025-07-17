@@ -1,63 +1,63 @@
 /* Color Palette Variables */
 :root {
   /* Primary Colors */
-  --color-primary-dark: #2D3142;
-  --color-secondary-light: #BFC0C0;
-  --color-white: #FFFFFF;
-  --color-accent-orange: #EF8354;
-  --color-supporting-blue: #4F5D75;
-  
+  --color-primary-dark: #2d3142;
+  --color-secondary-light: #bfc0c0;
+  --color-white: #ffffff;
+  --color-accent-orange: #ef8354;
+  --color-supporting-blue: #4f5d75;
+
   /* Light Mode Colors */
-  --color-text-primary: #2D3142;
-  --color-text-secondary: #4F5D75;
-  --color-text-muted: #6B7280;
-  --color-background-primary: #FFFFFF;
-  --color-background-secondary: #F8F9FA;
-  --color-background-tertiary: #BFC0C0;
-  --color-border-light: #E5E7EB;
-  --color-border-medium: #BFC0C0;
-  --color-border-dark: #4F5D75;
-  
+  --color-text-primary: #2d3142;
+  --color-text-secondary: #4f5d75;
+  --color-text-muted: #6b7280;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f8f9fa;
+  --color-background-tertiary: #bfc0c0;
+  --color-border-light: #e5e7eb;
+  --color-border-medium: #bfc0c0;
+  --color-border-dark: #4f5d75;
+
   /* Interactive States */
-  --color-hover-primary: #4F5D75;
-  --color-hover-accent: #D16B3A;
-  --color-focus-ring: #EF8354;
-  --color-active: #2D3142;
-  
+  --color-hover-primary: #4f5d75;
+  --color-hover-accent: #d16b3a;
+  --color-focus-ring: #ef8354;
+  --color-active: #2d3142;
+
   /* Status Colors (maintaining accessibility) */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
-  --color-info: #3B82F6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
 }
 
 /* Dark mode color overrides with increased opacity */
 .dark {
   /* Dark Mode Text Colors - Higher contrast */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #E5E7EB;
-  --color-text-muted: #D1D5DB;
-  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e5e7eb;
+  --color-text-muted: #d1d5db;
+
   /* Dark Mode Background Colors - More opaque */
   --color-background-primary: #111827;
-  --color-background-secondary: #1F2937;
+  --color-background-secondary: #1f2937;
   --color-background-tertiary: #374151;
-  
+
   /* Dark Mode Border Colors - More visible */
   --color-border-light: #374151;
-  --color-border-medium: #4B5563;
-  --color-border-dark: #6B7280;
-  
+  --color-border-medium: #4b5563;
+  --color-border-dark: #6b7280;
+
   /* Dark Mode Interactive States */
-  --color-hover-primary: #6B7280;
-  --color-hover-accent: #F97316;
-  --color-active: #FFFFFF;
-  
+  --color-hover-primary: #6b7280;
+  --color-hover-accent: #f97316;
+  --color-active: #ffffff;
+
   /* Dark Mode Status Colors (adjusted for dark backgrounds) */
-  --color-success: #34D399;
-  --color-warning: #FBBF24;
-  --color-error: #F87171;
-  --color-info: #60A5FA;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
 }
 
 /* Accessibility utilities */
@@ -83,14 +83,14 @@
 @media (prefers-contrast: high) {
   :root {
     --color-text-primary: #000000;
-    --color-background-primary: #FFFFFF;
-    --color-accent-orange: #CC6600;
+    --color-background-primary: #ffffff;
+    --color-accent-orange: #cc6600;
   }
-  
+
   .dark {
-    --color-text-primary: #FFFFFF;
+    --color-text-primary: #ffffff;
     --color-background-primary: #000000;
-    --color-accent-orange: #FF8C42;
+    --color-accent-orange: #ff8c42;
   }
 }
 

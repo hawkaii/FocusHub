@@ -113,7 +113,7 @@ export const CryptoModal = ({ isVisible = false, onClose }) => {
           <div className="w-full ">
             <form className="" onSubmit={handleSubmit}>
               <div className="mx-auto w-full rounded-xl bg-white shadow-lg dark:bg-gray-800 dark:text-gray-300 sm:w-auto">
-                <main className="pl-4 pr-4 pb-4">
+                <main className="pb-4 pl-4 pr-4">
                   <h1 className="text-center text-xl font-semibold text-gray-700 dark:text-gray-300">
                     Connect MetaMask Wallet and Donate
                   </h1>
@@ -126,7 +126,7 @@ export const CryptoModal = ({ isVisible = false, onClose }) => {
                       <input
                         name="ether"
                         type="text"
-                        className="m-1 block h-10 w-full border border-gray-300 py-2 px-3 text-lg focus:outline-none focus:ring dark:border-gray-500 dark:bg-gray-700"
+                        className="m-1 block h-10 w-full border border-gray-300 px-3 py-2 text-lg focus:outline-none focus:ring dark:border-gray-500 dark:bg-gray-700"
                         placeholder="0.00197 ETH"
                       />
                     </div>

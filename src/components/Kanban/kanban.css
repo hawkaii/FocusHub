@@ -1,6 +1,6 @@
 @media (min-width: 641px) {
-    [data-rbd-draggable-id] {
-        left: auto !important;
-        top: auto !important;
-    }
+  [data-rbd-draggable-id] {
+    left: auto !important;
+    top: auto !important;
+  }
 }

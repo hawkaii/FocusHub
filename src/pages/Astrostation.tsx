@@ -79,7 +79,7 @@ export const Astrostation = React.forwardRef<HTMLDivElement>((_props, ref) => {
   return (
     <div ref={ref} className="pb-8 md:h-screen md:pb-0">
       {backgroundId == Background.UNSPLASH && <UnsplashFooter />}
-      <div className={"bodyPart ml-auto flex w-5/6 flex-wrap justify-end gap-2 py-2 px-2"}>
+      <div className={"bodyPart ml-auto flex w-5/6 flex-wrap justify-end gap-2 px-2 py-2"}>
         <ProfileDropdown />
         <AnalyticsButton />
         <div className="settingsButton">

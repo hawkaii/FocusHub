@@ -135,19 +135,19 @@ export const TimerSettings = ({ onClose }) => {
   }
 
   return (
-    <div className="w-72 max-w-sm rounded-lg bg-background-primary p-4 text-text-primary shadow-card-hover border border-border-light sm:w-96">
-      <div className="flex justify-between items-center mb-4">
+    <div className="w-72 max-w-sm rounded-lg border border-border-light bg-background-primary p-4 text-text-primary shadow-card-hover sm:w-96">
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-text-primary">Settings</h2>
-        <IoCloseSharp 
-          className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200" 
-          onClick={onClose} 
+        <IoCloseSharp
+          className="cursor-pointer text-error transition-colors duration-200 hover:text-red-600"
+          onClick={onClose}
         />
       </div>
-      
+
       <div className="space-y-6">
-        <div className="border border-border-light rounded-lg p-4">
-          <div className="text-center font-medium mb-4">
-            Time <span className="text-text-secondary italic">(minutes)</span>
+        <div className="rounded-lg border border-border-light p-4">
+          <div className="mb-4 text-center font-medium">
+            Time <span className="italic text-text-secondary">(minutes)</span>
           </div>
           <div className="flex items-center justify-between gap-4 text-center">
             <ToggleOption
@@ -222,8 +222,8 @@ export const TimerSettings = ({ onClose }) => {
           </div>
         </div>
 
-        <div className="border border-border-light rounded-lg p-4">
-          <div className="text-center font-medium mb-4">Alarm Volume</div>
+        <div className="rounded-lg border border-border-light p-4">
+          <div className="mb-4 text-center font-medium">Alarm Volume</div>
           <div className="px-2">
             <Slider
               defaultValue={audioVolume}
@@ -251,16 +251,16 @@ export const TimerSettings = ({ onClose }) => {
           </div>
         </div>
 
-        <div className="border border-border-light rounded-lg p-4">
-          <div className="text-center font-medium mb-4">Alarm Sound</div>
+        <div className="rounded-lg border border-border-light p-4">
+          <div className="mb-4 text-center font-medium">Alarm Sound</div>
           <div className="flex items-center justify-between gap-2 text-center">
             <div className="flex-1">
-              <div className="text-sm mb-2">Retro</div>
+              <div className="mb-2 text-sm">Retro</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
-                  currentAlarm == arcade 
-                    ? "border-accent-orange bg-accent-orange text-white" 
+                  "flex cursor-pointer items-center justify-center rounded-lg border bg-background-secondary p-3 text-center transition-all duration-200",
+                  currentAlarm == arcade
+                    ? "border-accent-orange bg-accent-orange text-white"
                     : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(arcade)}
@@ -269,12 +269,12 @@ export const TimerSettings = ({ onClose }) => {
               </div>
             </div>
             <div className="flex-1">
-              <div className="text-sm mb-2">Bells</div>
+              <div className="mb-2 text-sm">Bells</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
-                  currentAlarm == bells 
-                    ? "border-accent-orange bg-accent-orange text-white" 
+                  "flex cursor-pointer items-center justify-center rounded-lg border bg-background-secondary p-3 text-center transition-all duration-200",
+                  currentAlarm == bells
+                    ? "border-accent-orange bg-accent-orange text-white"
                     : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(bells)}
@@ -283,12 +283,12 @@ export const TimerSettings = ({ onClose }) => {
               </div>
             </div>
             <div className="flex-1">
-              <div className="text-sm mb-2">Flute</div>
+              <div className="mb-2 text-sm">Flute</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
-                  currentAlarm == flute 
-                    ? "border-accent-orange bg-accent-orange text-white" 
+                  "flex cursor-pointer items-center justify-center rounded-lg border bg-background-secondary p-3 text-center transition-all duration-200",
+                  currentAlarm == flute
+                    ? "border-accent-orange bg-accent-orange text-white"
                     : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(flute)}
@@ -297,12 +297,12 @@ export const TimerSettings = ({ onClose }) => {
               </div>
             </div>
             <div className="flex-1">
-              <div className="text-sm mb-2">Piano</div>
+              <div className="mb-2 text-sm">Piano</div>
               <div
                 className={clsx(
-                  "flex cursor-pointer items-center justify-center bg-background-secondary p-3 text-center rounded-lg transition-all duration-200 border",
-                  currentAlarm == piano 
-                    ? "border-accent-orange bg-accent-orange text-white" 
+                  "flex cursor-pointer items-center justify-center rounded-lg border bg-background-secondary p-3 text-center transition-all duration-200",
+                  currentAlarm == piano
+                    ? "border-accent-orange bg-accent-orange text-white"
                     : "border-border-light hover:border-accent-orange hover:bg-background-tertiary"
                 )}
                 onClick={() => changeAlarm(piano)}
@@ -313,8 +313,8 @@ export const TimerSettings = ({ onClose }) => {
           </div>
         </div>
 
-        <div className="border border-border-light rounded-lg p-4">
-          <div className="text-center font-medium mb-4">Grid Size (increasing Step Size)</div>
+        <div className="rounded-lg border border-border-light p-4">
+          <div className="mb-4 text-center font-medium">Grid Size (increasing Step Size)</div>
           <div className="px-2">
             <Slider
               //@ts-ignore
@@ -343,14 +343,11 @@ export const TimerSettings = ({ onClose }) => {
           </div>
         </div>
 
-        <div className="border border-border-light rounded-lg p-4">
-          <div className="text-center font-medium mb-4">Lock Widgets In-place</div>
+        <div className="rounded-lg border border-border-light p-4">
+          <div className="mb-4 text-center font-medium">Lock Widgets In-place</div>
           <div className="flex justify-center">
             <Button
-              className={clsx(
-                "w-[70%]",
-                currentWidgetLockState && "bg-error hover:bg-red-600 border-error"
-              )}
+              className={clsx("w-[70%]", currentWidgetLockState && "border-error bg-error hover:bg-red-600")}
               variant={currentWidgetLockState ? "danger" : "primary"}
               onClick={() => setCurrentWidgetLockState(!currentWidgetLockState)}
             >
@@ -360,24 +357,15 @@ export const TimerSettings = ({ onClose }) => {
         </div>
 
         <div className="flex justify-between gap-3">
-          <Button
-            variant="tertiary"
-            onClick={handleDefaults}
-          >
+          <Button variant="tertiary" onClick={handleDefaults}>
             Default
           </Button>
 
-          <Button
-            variant="secondary"
-            onClick={unHideInfo}
-          >
+          <Button variant="secondary" onClick={unHideInfo}>
             Unhide Info
           </Button>
 
-          <Button
-            variant="primary"
-            onClick={onSubmit}
-          >
+          <Button variant="primary" onClick={onSubmit}>
             Save
           </Button>
         </div>

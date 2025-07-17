@@ -28,7 +28,7 @@ export const WithTooltip = ({ text, children, position = "top" }: TooltipProps) 
       <div
         ref={floating}
         className={clsx(
-          "rounded-lg bg-primary-dark py-2 px-3 text-sm text-white shadow-card z-50",
+          "z-50 rounded-lg bg-primary-dark px-3 py-2 text-sm text-white shadow-card",
           isOpen && "animate-intro-fade-scale",
           isOpen === false && "animate-outro-fade-scale",
           isOpen === undefined && "opacity-0"

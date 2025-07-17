@@ -11,6 +11,8 @@ import {
   useBreakStarted,
   useAudioVolume,
   useAlarmOption,
+  useTimeTracking,
+  useTask,
 } from "@Store";
 import toast from "react-hot-toast";
 import { secondsToTime, formatDisplayTime } from "@Utils/utils";
@@ -32,9 +34,12 @@ export const Timer = () => {
   const [sessionType, setSessionType] = useState("Session");
   const { setIsTimerToggled } = useToggleTimer();
   const { alarm } = useAlarmOption();
+  const { startSession, endSession, updateCurrentSession } = useTimeTracking();
+  const { tasks, setPomodoroCounter } = useTask();
 
   const audioRef = useRef();
   const { audioVolume } = useAudioVolume();
+  const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setHasStarted(timerIntervalId !== null);
@@ -47,7 +52,17 @@ export const Timer = () => {
       audioRef.current.volume = audioVolume;
       // @ts-ignore
       audioRef.current.play();
+
+      // End current session as completed
+      endSession(true);
+
       if (sessionType === "Session") {
+        // Completed a pomodoro session - increment counter for active task
+        const activeTask = tasks.find(task => task.inProgress);
+        if (activeTask) {
+          setPomodoroCounter(activeTask.id);
+        }
+
         setSessionType("Break");
         setTimer(breakLength);
         setBreakStarted(true);
@@ -101,7 +116,18 @@ export const Timer = () => {
         );
       }
     }
-  }, [timer, sessionType, audioVolume]);
+  }, [
+    timer,
+    sessionType,
+    audioVolume,
+    endSession,
+    tasks,
+    setPomodoroCounter,
+    breakLength,
+    setTimerQueue,
+    setBreakStarted,
+    pomodoroLength,
+  ]);
 
   useEffect(() => {
     setTimer(pomodoroLength);
@@ -128,16 +154,47 @@ export const Timer = () => {
     }
   }, [hasStarted, timerMinutes, timerSeconds, sessionType]);
 
+  // Cleanup intervals on component unmount
+  useEffect(() => {
+    return () => {
+      if (updateIntervalRef.current) {
+        clearInterval(updateIntervalRef.current);
+      }
+    };
+  }, []);
+
   function toggleCountDown() {
     if (hasStarted) {
-      // started mode
+      // Pause/Stop mode - end current session
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
       }
+      if (updateIntervalRef.current) {
+        clearInterval(updateIntervalRef.current);
+        updateIntervalRef.current = null;
+      }
       setTimerIntervalId(null);
+
+      // End the current session as paused/incomplete
+      endSession(false);
     } else {
-      // stopped mode
-      // create accurate date timer with date
+      // Start mode - begin new session
+      const currentSessionType =
+        sessionType === "Session" ? "pomodoro" : breakLength === shortBreakLength ? "shortBreak" : "longBreak";
+      const plannedDuration = sessionType === "Session" ? pomodoroLength : breakLength;
+
+      // Find the current active task (in progress)
+      const activeTask = tasks.find(task => task.inProgress);
+
+      // Start time tracking session
+      startSession(currentSessionType, plannedDuration, activeTask?.id);
+
+      // Set up minute-by-minute updates
+      updateIntervalRef.current = setInterval(() => {
+        updateCurrentSession();
+      }, 60000); // Update every minute
+
+      // Create timer interval
       const newIntervalId = setInterval(() => {
         setTimer(prevTime => {
           let newTime = prevTime - 1;
@@ -159,7 +216,17 @@ export const Timer = () => {
     if (timerIntervalId) {
       clearInterval(timerIntervalId);
     }
+    if (updateIntervalRef.current) {
+      clearInterval(updateIntervalRef.current);
+      updateIntervalRef.current = null;
+    }
     setTimerIntervalId(null);
+
+    // End current session as incomplete if there was one running
+    if (hasStarted) {
+      endSession(false);
+    }
+
     setPomodoroLength(pomodoroLength);
     setShortBreak(shortBreakLength);
     setLongBreak(longBreakLength);
@@ -181,29 +248,26 @@ export const Timer = () => {
   return (
     <div
       className={clsx(
-        "dwidth sm:w-96 mb-2 max-w-sm rounded-lg border shadow-card transition-all duration-200",
+        "dwidth mb-2 max-w-sm rounded-lg border shadow-card transition-all duration-200 sm:w-96",
         breakStarted
-          ? "bg-blue-50 border-info shadow-card-hover dark:bg-blue-900/30"
-          : "bg-background-primary border-border-light",
+          ? "border-info bg-blue-50 shadow-card-hover dark:bg-blue-900/30"
+          : "border-border-light bg-background-primary",
         "backdrop-blur-sm"
       )}
     >
       <div className="text-center">
-        <div className="rounded-t-lg p-3 border-b border-border-light">
-          <div className="flex justify-end mb-2">
+        <div className="rounded-t-lg border-b border-border-light p-3">
+          <div className="mb-2 flex justify-end">
             <IoCloseSharp
-              className="cursor-pointer text-error hover:text-red-600 transition-colors duration-200"
+              className="cursor-pointer text-error transition-colors duration-200 hover:text-red-600"
               onClick={() => setIsTimerToggled(false)}
             />
           </div>
           {/* Controls */}
-          <div className="flex gap-2 mb-4">
+          <div className="mb-4 flex gap-2">
             <div className="flex flex-1">
               <Button
-                className={clsx(
-                  "w-full text-sm",
-                  breakLength === shortBreakLength && "ring-2 ring-accent-orange"
-                )}
+                className={clsx("w-full text-sm", breakLength === shortBreakLength && "ring-2 ring-accent-orange")}
                 variant="secondary"
                 size="small"
                 onClick={() => selectBreak(shortBreakLength)}
@@ -215,10 +279,7 @@ export const Timer = () => {
 
             <div className="flex flex-1">
               <Button
-                className={clsx(
-                  "w-full text-sm",
-                  breakLength === longBreakLength && "ring-2 ring-accent-orange"
-                )}
+                className={clsx("w-full text-sm", breakLength === longBreakLength && "ring-2 ring-accent-orange")}
                 variant="secondary"
                 size="small"
                 onClick={() => selectBreak(longBreakLength)}
@@ -230,7 +291,7 @@ export const Timer = () => {
           </div>
           {/* Timer */}
           <div className="mb-4">
-            <p className="text-text-secondary font-medium mb-2">{sessionType}</p>
+            <p className="mb-2 font-medium text-text-secondary">{sessionType}</p>
             <div className="text-6xl font-bold tabular-nums text-text-primary sm:text-8xl">
               {/*// @ts-ignore */}
               {formatDisplayTime(timerMinutes)}:{/*// @ts-ignore */}
@@ -238,17 +299,11 @@ export const Timer = () => {
             </div>
           </div>
 
-          <div className="timer-control tabular-nums flex gap-3 justify-center">
-            <Button
-              variant={hasStarted ? "secondary" : "primary"}
-              onClick={() => toggleCountDown()}
-            >
+          <div className="timer-control flex justify-center gap-3 tabular-nums">
+            <Button variant={hasStarted ? "secondary" : "primary"} onClick={() => toggleCountDown()}>
               <p className="tabular-nums">{hasStarted ? "Pause" : "Start"}</p>
             </Button>
-            <Button
-              variant="tertiary"
-              onClick={handleResetTimer}
-            >
+            <Button variant="tertiary" onClick={handleResetTimer}>
               <p className="tabular-nums">Reset</p>
             </Button>
           </div>

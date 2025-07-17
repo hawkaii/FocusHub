@@ -44,9 +44,12 @@ import {
   IPosKanban,
   ISeoContent,
   IKanbanBoardState,
+  ITimeTrackingState,
+  ITimeSession,
+  ITimeMetrics,
+  IDailyStats,
+  IWeeklyTrend,
 } from "./interfaces";
-import { InfoSection } from "./pages/InfoSection";
-import { uuid } from "uuidv4";
 import { v4 } from "uuid";
 
 /**
@@ -904,3 +907,233 @@ export const useSeoVisibilityStore = create<ISeoContent>(
     { name: "state_seo_visibility" }
   )
 );
+
+/**
+ * Time Tracking Store
+ * ---
+ * Handles tracking time sessions and metrics for pomodoro timer
+ */
+export const useTimeTracking = create<ITimeTrackingState>(
+  persist(
+    (set, get) => ({
+      sessions: [],
+      currentSession: null,
+      metrics: {
+        totalFocusTime: 0,
+        totalBreakTime: 0,
+        sessionsCompleted: 0,
+        avgSessionLength: 0,
+        productivity: 0,
+        dailyStats: {},
+        weeklyTrends: [],
+      },
+      startSession: (sessionType, plannedDuration, taskId) => {
+        const newSession: ITimeSession = {
+          id: `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+          startTime: new Date(),
+          endTime: null,
+          sessionType,
+          plannedDuration,
+          actualDuration: null,
+          currentElapsed: 0,
+          taskId: taskId || null,
+          completed: false,
+        };
+        set({ currentSession: newSession });
+      },
+      updateCurrentSession: () => {
+        const { currentSession } = get();
+        if (!currentSession) return;
+
+        const now = new Date();
+        const elapsedSeconds = Math.floor((now.getTime() - currentSession.startTime.getTime()) / 1000);
+
+        const updatedSession: ITimeSession = {
+          ...currentSession,
+          currentElapsed: elapsedSeconds,
+        };
+
+        set({
+          currentSession: updatedSession,
+          metrics: calculateMetrics(get().sessions, updatedSession),
+        });
+      },
+      endSession: completed => {
+        const { currentSession, sessions } = get();
+        if (!currentSession) return;
+
+        const endTime = new Date();
+        const actualDuration = Math.floor((endTime.getTime() - currentSession.startTime.getTime()) / 1000);
+
+        const completedSession: ITimeSession = {
+          ...currentSession,
+          endTime,
+          actualDuration,
+          currentElapsed: actualDuration,
+          completed,
+        };
+
+        const updatedSessions = [...sessions, completedSession];
+        set({
+          sessions: updatedSessions,
+          currentSession: null,
+          metrics: calculateMetrics(updatedSessions, null),
+        });
+      },
+      pauseSession: () => {
+        // Pause functionality could be implemented here
+      },
+      resumeSession: () => {
+        // Resume functionality could be implemented here
+      },
+      getMetrics: () => {
+        const { sessions, currentSession } = get();
+        return calculateMetrics(sessions, currentSession);
+      },
+      getDailyStats: date => {
+        const { sessions, currentSession } = get();
+        const metrics = calculateMetrics(sessions, currentSession);
+        return (
+          metrics.dailyStats[date] || {
+            date,
+            focusTime: 0,
+            breakTime: 0,
+            sessionsCompleted: 0,
+            productivity: 0,
+          }
+        );
+      },
+      clearHistory: () => {
+        set({
+          sessions: [],
+          currentSession: null,
+          metrics: {
+            totalFocusTime: 0,
+            totalBreakTime: 0,
+            sessionsCompleted: 0,
+            avgSessionLength: 0,
+            productivity: 0,
+            dailyStats: {},
+            weeklyTrends: [],
+          },
+        });
+      },
+    }),
+    { name: "time_tracking" }
+  )
+);
+
+function calculateMetrics(sessions: ITimeSession[], currentSession?: ITimeSession | null): ITimeMetrics {
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+  const recentSessions = sessions.filter(session => session.startTime >= thirtyDaysAgo && session.completed);
+
+  // Include current session in focus time calculation if it's a pomodoro
+  let currentFocusTime = 0;
+  if (currentSession && currentSession.sessionType === "pomodoro") {
+    currentFocusTime = currentSession.currentElapsed || 0;
+  }
+
+  const totalFocusTime =
+    recentSessions
+      .filter(session => session.sessionType === "pomodoro")
+      .reduce((total, session) => total + (session.actualDuration || 0), 0) + currentFocusTime;
+
+  const totalBreakTime = recentSessions
+    .filter(session => session.sessionType !== "pomodoro")
+    .reduce((total, session) => total + (session.actualDuration || 0), 0);
+
+  const sessionsCompleted = recentSessions.length;
+  const avgSessionLength =
+    sessionsCompleted > 0 ? totalFocusTime / recentSessions.filter(s => s.sessionType === "pomodoro").length : 0;
+
+  const productivity =
+    recentSessions.length > 0
+      ? (recentSessions.reduce((acc, session) => {
+          const planned = session.plannedDuration;
+          const actual = session.actualDuration || 0;
+          return acc + Math.min(actual / planned, 1);
+        }, 0) /
+          recentSessions.length) *
+        100
+      : 0;
+
+  // Calculate daily stats
+  const dailyStats: { [date: string]: IDailyStats } = {};
+  recentSessions.forEach(session => {
+    const dateStr = session.startTime.toISOString().split("T")[0];
+    if (!dailyStats[dateStr]) {
+      dailyStats[dateStr] = {
+        date: dateStr,
+        focusTime: 0,
+        breakTime: 0,
+        sessionsCompleted: 0,
+        productivity: 0,
+      };
+    }
+
+    if (session.sessionType === "pomodoro") {
+      dailyStats[dateStr].focusTime += session.actualDuration || 0;
+    } else {
+      dailyStats[dateStr].breakTime += session.actualDuration || 0;
+    }
+    dailyStats[dateStr].sessionsCompleted += 1;
+  });
+
+  // Calculate productivity for each day
+  Object.values(dailyStats).forEach(day => {
+    const daySessions = recentSessions.filter(session => session.startTime.toISOString().split("T")[0] === day.date);
+    if (daySessions.length > 0) {
+      day.productivity =
+        (daySessions.reduce((acc, session) => {
+          const planned = session.plannedDuration;
+          const actual = session.actualDuration || 0;
+          return acc + Math.min(actual / planned, 1);
+        }, 0) /
+          daySessions.length) *
+        100;
+    }
+  });
+
+  // Calculate weekly trends
+  const weeklyTrends: IWeeklyTrend[] = [];
+  for (let i = 0; i < 4; i++) {
+    const weekStart = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000);
+    const weekEnd = new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    const weekSessions = recentSessions.filter(
+      session => session.startTime >= weekStart && session.startTime < weekEnd
+    );
+
+    const weekFocusTime = weekSessions
+      .filter(session => session.sessionType === "pomodoro")
+      .reduce((total, session) => total + (session.actualDuration || 0), 0);
+
+    weeklyTrends.unshift({
+      week: `Week ${4 - i}`,
+      avgFocusTime: weekFocusTime / 7,
+      avgSessions: weekSessions.length / 7,
+      productivity:
+        weekSessions.length > 0
+          ? (weekSessions.reduce((acc, session) => {
+              const planned = session.plannedDuration;
+              const actual = session.actualDuration || 0;
+              return acc + Math.min(actual / planned, 1);
+            }, 0) /
+              weekSessions.length) *
+            100
+          : 0,
+    });
+  }
+
+  return {
+    totalFocusTime,
+    totalBreakTime,
+    sessionsCompleted,
+    avgSessionLength,
+    productivity,
+    dailyStats,
+    weeklyTrends,
+  };
+}

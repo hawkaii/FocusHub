@@ -42,10 +42,10 @@ export const Settings = ({ setOpenSettings, Task }) => {
   }
 
   return (
-    <div className="mb-6 mt-2 w-full space-y-2 rounded-lg border border-gray-200 bg-white py-2 px-1 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 ">
+    <div className="mb-6 mt-2 w-full space-y-2 rounded-lg border border-gray-200 bg-white px-1 py-2 text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 ">
       <div className="flex">
         <input
-          className="cancelDrag m-1 h-10 w-full border border-gray-300 py-2 px-3 text-lg dark:border-gray-500 dark:bg-gray-700"
+          className="cancelDrag m-1 h-10 w-full border border-gray-300 px-3 py-2 text-lg dark:border-gray-500 dark:bg-gray-700"
           type="text"
           placeholder={Task.description}
           value={text}

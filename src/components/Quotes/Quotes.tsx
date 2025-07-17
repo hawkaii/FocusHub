@@ -22,12 +22,12 @@ export const Quotes = () => {
         />
       </div>
       <div className="cancelDrag max-w-sm text-center">
-        <div className="relative items-center justify-center pb-2 pr-2 pl-2 font-radio-canada text-xl text-gray-800 dark:text-white">
+        <div className="relative items-center justify-center pb-2 pl-2 pr-2 font-radio-canada text-xl text-gray-800 dark:text-white">
           {quoteData[quoteNumber].q}
           <br />-{quoteData[quoteNumber].a}
         </div>
       </div>
-      <div className="flex w-full justify-end pb-2 pr-2 pl-2 text-base">
+      <div className="flex w-full justify-end pb-2 pl-2 pr-2 text-base">
         <AiOutlineReload onClick={() => setQuoteNumber(Math.floor(Math.random() * quoteData.length))} />
       </div>
     </div>

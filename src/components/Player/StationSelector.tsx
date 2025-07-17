@@ -19,7 +19,7 @@ export const StationSelector = () => {
         <div className="form-check flex-1">
           <label className="form-check-label inline-block cursor-pointer">
             <input
-              className="form-check-input float-left mt-1 mr-2 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
+              className="form-check-input float-left mr-2 mt-1 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
               type="radio"
               name="flexRadioDefault"
               id="jfKfPfyJRdk"
@@ -31,7 +31,7 @@ export const StationSelector = () => {
         <div className="form-check flex-1">
           <label className="form-check-label inline-block cursor-pointer">
             <input
-              className="form-check-input float-left mt-1 mr-2 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
+              className="form-check-input float-left mr-2 mt-1 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
               type="radio"
               name="flexRadioDefault"
               id="e3L1PIY1pN8"
@@ -45,7 +45,7 @@ export const StationSelector = () => {
         <div className="form-check flex-1">
           <label className="form-check-label inline-block cursor-pointer">
             <input
-              className="form-check-input float-left mt-1 mr-2 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
+              className="form-check-input float-left mr-2 mt-1 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
               type="radio"
               name="flexRadioDefault"
               id="hi1cYzaLEig"
@@ -57,7 +57,7 @@ export const StationSelector = () => {
         <div className="form-check flex-1">
           <label className="form-check-label inline-block cursor-pointer">
             <input
-              className="form-check-input float-left mt-1 mr-2 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
+              className="form-check-input float-left mr-2 mt-1 h-4 w-4 appearance-none rounded-full border border-gray-300 bg-white bg-contain bg-center bg-no-repeat align-top transition duration-200 checked:border-blue-600 checked:bg-blue-600 focus:outline-none"
               type="radio"
               name="flexRadioDefault"
               id="6uddGul0oAc"

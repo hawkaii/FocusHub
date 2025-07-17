@@ -43,7 +43,7 @@ export const Sticky = ({ id, text, color }) => {
         <IoEllipsisHorizontalSharp className="mr-2 cursor-pointer" onClick={handleToggleSelector} />
         <IoCloseSharp className="cursor-pointer text-red-500 hover:bg-red-200" onClick={() => removeNote(id)} />
       </div>
-      <div className="cancelDrag m-auto min-h-[150px] min-w-[150px] max-w-[215px] break-words rounded pl-4 pb-4 pr-4">
+      <div className="cancelDrag m-auto min-h-[150px] min-w-[150px] max-w-[215px] break-words rounded pb-4 pl-4 pr-4">
         <TextareaAutosize
           rows={4}
           cols={18}

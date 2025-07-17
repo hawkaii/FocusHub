@@ -47,7 +47,7 @@ export const AddTask = () => {
       <div className="my-5">
         <label className="block">Task</label>
         <input
-          className="cancelDrag m-1 h-10 w-full border border-gray-300 py-2 px-3 text-lg dark:border-gray-500 dark:bg-gray-700"
+          className="cancelDrag m-1 h-10 w-full border border-gray-300 px-3 py-2 text-lg dark:border-gray-500 dark:bg-gray-700"
           type="text"
           placeholder="Add Task"
           value={charCount}
