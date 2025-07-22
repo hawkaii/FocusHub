@@ -93,6 +93,19 @@ export function useAuth() {
 
   const signOut = async () => {
     try {
+      const sessionToken = localStorage.getItem('sessionToken');
+
+      if (sessionToken) {
+        await fetch(API_ENDPOINTS.LOGOUT, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${sessionToken}`
+          }
+        });
+      }
+
+      localStorage.removeItem('sessionToken');
+      localStorage.removeItem('user');
       await firebaseSignOut(auth);
       return { error: null };
     } catch (error: any) {
