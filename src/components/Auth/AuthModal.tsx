@@ -42,8 +42,9 @@ export const AuthModal = ({ isVisible, onClose }: AuthModalProps) => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error } = await signInWithGoogle();
-      if (error) throw error;
+      const auth = await signInWithGoogle();
+      console.log(auth)
+      if (auth.error) throw auth.error;
       successToast("Signed in with Google successfully!", false);
       onClose();
     } catch (error: any) {
